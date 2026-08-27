@@ -1,11 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 170">
-<rect width="520" height="170" fill="none"/>
-<g transform="translate(10 10)">
-<path d="M12 20h55l34 34-34 34H32v48H12z" fill="#fff"/>
-<path d="M12 20h38l27 27H49L22 20z" fill="#2563EB"/>
-<path d="M32 88h35l34-34v34l-34 34H32z" fill="#fff"/>
-</g>
-<text x="145" y="72" font-family="Arial,sans-serif" font-size="48" font-weight="700" fill="#fff">Rayan</text>
-<text x="300" y="72" font-family="Arial,sans-serif" font-size="48" font-weight="700" fill="#60A5FA">Tag</text>
-<text x="150" y="116" font-family="Tahoma,Arial,sans-serif" font-size="27" font-weight="700" fill="#fff">رایان تگ</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 170"><path d="M20 20h55l34 34-34 34H40v55H20z" fill="#111827"/><path d="M20 20h38l28 28H50L27 20z" fill="#2563EB"/><text x="140" y="75" font-family="Arial" font-size="48" font-weight="700" fill="#111827">Rayan</text><text x="300" y="75" font-family="Arial" font-size="48" font-weight="700" fill="#2563EB">Tag</text><text x="145" y="120" font-family="Tahoma" font-size="27" font-weight="700">رایان تگ</text></svg>
