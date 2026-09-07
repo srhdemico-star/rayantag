@@ -1,506 +1,279 @@
-const PRODUCTS = [{
+const PRODUCTS = [
+{
     id: 1,
-    category: "mobile",
-    name: "iPhone 16 Pro Max",
-    image: "assets/products/iphone16.webp",
-    price: "351,900,000",
-    brand: "Apple",
+    category: "transparent-case",
+    name: "قاب شفاف ضدضربه آیفون",
+    image: "assets/products/transparent-case.webp",
+    price: "390,000",
+    brand: "RayanTag",
+    featured: true,
 
-    description:
-        "جدیدترین پرچمدار اپل با تراشه A18 Pro، نمایشگر Super Retina XDR و دوربین حرفه‌ای.",
+    description: "قاب شفاف با طراحی ساده، مقاوم و مناسب استفاده روزمره.",
 
     specs: {
-        display: "6.9 inch OLED",
-        cpu: "Apple A18 Pro",
-        memory: "256GB",
-        ram: "8GB",
-        camera: "48MP",
-        battery: "4685mAh"
+        type: "قاب شفاف",
+        material: "TPU + PC",
+        feature: "ضد ضربه",
+        magsafe: "ندارد"
     }
 },
 
 {
     id: 2,
-    category: "mobile",
-    name: "iPhone 15 ",
-    image: "assets/products/iphone15.webp",
-    price: "210,500,000",
-    brand: "Apple",
+    category: "magsafe-case",
+    name: "قاب مگ‌سیف شفاف آیفون",
+    image: "assets/products/magsafe-case.webp",
+    price: "590,000",
+    brand: "RayanTag",
+    featured: true,
 
-    description:
-        "آیفون 15 پرو مکس با تراشه A17 Pro و بدنه تیتانیومی.",
+    description: "قاب شفاف مجهز به حلقه مگ‌سیف برای شارژ و استفاده از لوازم جانبی سازگار.",
 
     specs: {
-        display: "6.7 inch OLED",
-        cpu: "Apple A17 Pro",
-        memory: "256GB",
-        ram: "8GB",
-        camera: "48MP",
-        battery: "4422mAh"
+        type: "قاب مگ‌سیف",
+        material: "TPU + PC",
+        feature: "حلقه مگ‌سیف",
+        magsafe: "دارد"
     }
 },
 
 {
     id: 3,
-    category: "mobile",
-    name: "Samsung Galaxy S25 Ultra",
-    image: "assets/products/s25ultra.webp",
-    price: "265,000,000",
-    brand: "Samsung",
+    category: "full-glass",
+    name: "گلس تمام‌صفحه فول کاور",
+    image: "assets/products/full-glass.webp",
+    price: "190,000",
+    brand: "RayanTag",
+    featured: true,
 
-    description:
-        "پرچمدار سامسونگ با قلم S Pen و دوربین حرفه‌ای.",
+    description: "محافظ صفحه تمام‌صفحه با پوشش مناسب نمایشگر و شفافیت بالا.",
 
     specs: {
-        display: "6.9 inch AMOLED",
-        cpu: "Snapdragon 8 Elite",
-        memory: "256GB",
-        ram: "12GB",
-        camera: "200MP",
-        battery: "5000mAh"
+        type: "گلس تمام‌صفحه",
+        hardness: "9H",
+        coverage: "تمام‌صفحه",
+        feature: "شفافیت بالا"
     }
 },
 
 {
     id: 4,
-    category: "mobile",
-    name: "Xiaomi 15",
-    image: "assets/products/xiaomi15.webp",
-    price: "185,200,000",
-    brand: "Xiaomi",
+    category: "privacy-glass",
+    name: "گلس حریم خصوصی ضدجاسوسی",
+    image: "assets/products/privacy-glass.webp",
+    price: "290,000",
+    brand: "RayanTag",
+    featured: true,
 
-    description:
-        "پرچمدار جدید شیائومی با پردازنده Snapdragon و دوربین Leica.",
+    description: "محافظ صفحه حریم خصوصی که دید نمایشگر از زوایای کناری را محدود می‌کند.",
 
     specs: {
-        display: "6.36 inch AMOLED",
-        cpu: "Snapdragon 8 Elite",
-        memory: "256GB",
-        ram: "12GB",
-        camera: "50MP Triple",
-        battery: "5400mAh"
+        type: "گلس حریم خصوصی",
+        hardness: "9H",
+        feature: "ضد جاسوسی",
+        coverage: "تمام‌صفحه"
     }
 },
 
 {
     id: 5,
-    category: "mobile",
-    name: "POCO F7",
-    image: "assets/products/pocof7.webp",
-    price: "134,300,000",
-    brand: "POCO",
+    category: "lens-protector",
+    name: "محافظ لنز دوربین گوشی",
+    image: "assets/products/lens-protector.webp",
+    price: "220,000",
+    brand: "RayanTag",
+    featured: true,
 
-    description:
-        "گوشی قدرتمند پوکو با سخت‌افزار مناسب بازی و باتری پرظرفیت.",
+    description: "محافظ لنز مقاوم برای کمک به جلوگیری از خط و خش روی دوربین گوشی.",
 
     specs: {
-        display: "6.67 inch AMOLED",
-        cpu: "Snapdragon 8s Gen 4",
-        memory: "256GB",
-        ram: "12GB",
-        camera: "50MP",
-        battery: "6500mAh"
+        type: "محافظ لنز",
+        material: "شیشه مقاوم",
+        feature: "ضد خش",
+        installation: "نصب آسان"
     }
 },
 
+
 {
     id: 6,
-    category: "earbuds",
-    name: "AirPods Pro 2",
-    image: "assets/products/airpodspro2.webp",
-    price: "49,900,000",
-    brand: "Apple",
+    category: "transparent-case",
+    name: "قاب شفاف ژله‌ای ضدزردی",
+    image: "assets/products/transparent-case-2.webp",
+    price: "350,000",
+    brand: "RayanTag",
 
-    description:
-        "ایرپاد پرو نسل دوم با نویزکنسلینگ پیشرفته و صدای فضایی.",
+    description: "قاب سبک و انعطاف‌پذیر با طراحی شفاف و محافظت مناسب از بدنه گوشی.",
 
     specs: {
-        bluetooth: "5.3",
-        battery: "30 Hours",
-        charging: "USB-C",
-        noiseCanceling: "Active",
-        waterproof: "IP54"
+        type: "قاب شفاف",
+        material: "TPU",
+        feature: "انعطاف‌پذیر",
+        weight: "سبک"
     }
 },
 
 {
     id: 7,
-    category: "earbuds",
-    name: "Galaxy Buds 3",
-    image: "assets/products/galaxybuds3.webp",
-    price: "19,000,000",
-    brand: "Samsung",
+    category: "magsafe-case",
+    name: "قاب سیلیکونی مگ‌سیف",
+    image: "assets/products/silicone-magsafe.webp",
+    price: "690,000",
+    brand: "RayanTag",
 
-    description:
-        "هندزفری بی‌سیم سامسونگ با کیفیت صدای عالی و ANC.",
+    description: "قاب سیلیکونی خوش‌دست با پشتیبانی از مگ‌سیف و محافظت مناسب از گوشی.",
 
     specs: {
-        bluetooth: "5.4",
-        battery: "30 Hours",
-        charging: "USB-C",
-        noiseCanceling: "Active",
-        waterproof: "IP57"
+        type: "قاب سیلیکونی",
+        material: "Silicone",
+        magsafe: "دارد",
+        feature: "لمس نرم"
     }
 },
 
 {
     id: 8,
-    category: "earbuds",
-    name: "QCY T13",
-    image: "assets/products/qcyt13.webp",
-    price: "2,490,000",
-    brand: "QCY",
+    category: "full-glass",
+    name: "گلس تمام‌چسب 9D",
+    image: "assets/products/9d-glass.webp",
+    price: "230,000",
+    brand: "RayanTag",
 
-    description:
-        "هندزفری اقتصادی با کیفیت صدای مناسب و شارژدهی بالا.",
+    description: "گلس تمام‌چسب با پوشش مناسب صفحه نمایش و حساسیت لمس مطلوب.",
 
     specs: {
-        bluetooth: "5.1",
-        battery: "40 Hours",
-        charging: "USB-C",
-        noiseCanceling: "ENC",
-        waterproof: "IPX5"
+        type: "گلس تمام‌چسب",
+        hardness: "9H",
+        feature: "حساسیت لمس بالا",
+        coverage: "لبه تا لبه"
     }
 },
 
 {
     id: 9,
-    category: "earbuds",
-    name: "JBL Tune",
-    image: "assets/products/jbltune.webp",
-    price: "8,990,000",
-    brand: "JBL",
+    category: "privacy-glass",
+    name: "گلس پرایوسی مات",
+    image: "assets/products/privacy-matte.webp",
+    price: "320,000",
+    brand: "RayanTag",
 
-    description:
-        "هندزفری JBL با صدای قدرتمند و بیس عمیق.",
+    description: "گلس حریم خصوصی با سطح مات برای کاهش بازتاب نور و اثر انگشت.",
 
     specs: {
-        bluetooth: "5.3",
-        battery: "48 Hours",
-        charging: "USB-C",
-        noiseCanceling: "ANC",
-        waterproof: "IPX4"
+        type: "گلس پرایوسی",
+        surface: "مات",
+        feature: "حریم خصوصی",
+        coverage: "تمام‌صفحه"
     }
 },
 
 {
     id: 10,
-    category: "earbuds",
-    name: "Haylou X1",
-    image: "assets/products/hayloux1.webp",
-    price: "4,890,000",
-    brand: "Haylou",
+    category: "lens-protector",
+    name: "محافظ لنز فلزی دوربین",
+    image: "assets/products/metal-lens-protector.webp",
+    price: "290,000",
+    brand: "RayanTag",
 
-    description:
-        "هندزفری سبک و خوش‌قیمت با کیفیت صدای مناسب.",
+    description: "محافظ لنز با فریم مقاوم برای محافظت بهتر از بخش دوربین.",
 
     specs: {
-        bluetooth: "5.3",
-        battery: "24 Hours",
-        charging: "USB-C",
-        noiseCanceling: "ENC",
-        waterproof: "IPX4"
+        type: "محافظ لنز",
+        material: "فلز + شیشه",
+        feature: "ضد خش",
+        installation: "چسبی"
     }
 },
 
+
+
 {
     id: 11,
-    category: "watch",
-    name: "Apple Watch Series",
-    image: "assets/products/applewatch.webp",
-    price: "74,000,000",
-    brand: "Apple",
+    category: "transparent-case",
+    name: "قاب شفاف مگنتی ضدضربه",
+    image: "assets/products/magnetic-clear-case.webp",
+    price: "490,000",
+    brand: "RayanTag",
 
-    description:
-        "ساعت هوشمند اپل با امکانات کامل سلامتی و ورزشی.",
+    description: "قاب شفاف مقاوم با طراحی مدرن و محافظت از گوشه‌های گوشی.",
 
     specs: {
-        display: "OLED",
-        battery: "18 Hours",
-        waterproof: "50m",
-        gps: "Yes",
-        bluetooth: "5.3"
+        type: "قاب شفاف",
+        material: "PC + TPU",
+        feature: "محافظ گوشه",
+        magsafe: "مگنتی"
     }
 },
 
 {
     id: 12,
-    category: "watch",
-    name: "Galaxy Watch",
-    image: "assets/products/galaxywatch.webp",
-    price: "43,900,000",
-    brand: "Samsung",
+    category: "magsafe-case",
+    name: "قاب مگ‌سیف محافظ دوربین",
+    image: "assets/products/camera-magsafe-case.webp",
+    price: "750,000",
+    brand: "RayanTag",
 
-    description:
-        "ساعت هوشمند سامسونگ با Wear OS و سنسورهای سلامتی.",
+    description: "قاب مگ‌سیف با طراحی محافظ اطراف دوربین و لبه‌های گوشی.",
 
     specs: {
-        display: "AMOLED",
-        battery: "40 Hours",
-        waterproof: "5ATM",
-        gps: "Yes",
-        bluetooth: "5.3"
+        type: "قاب مگ‌سیف",
+        feature: "محافظ دوربین",
+        magsafe: "دارد",
+        protection: "ضد ضربه"
     }
 },
 
 {
     id: 13,
-    category: "watch",
-    name: "Xiaomi Watch",
-    image: "assets/products/xiaomiwatch.webp",
-    price: "19,600,000",
-    brand: "Xiaomi",
+    category: "full-glass",
+    name: "گلس سرامیکی ضدضربه",
+    image: "assets/products/ceramic-glass.webp",
+    price: "350,000",
+    brand: "RayanTag",
 
-    description:
-        "ساعت هوشمند شیائومی با شارژدهی بسیار بالا.",
+    description: "محافظ صفحه با انعطاف‌پذیری مناسب و مقاومت بالا در استفاده روزمره.",
 
     specs: {
-        display: "AMOLED",
-        battery: "14 Days",
-        waterproof: "5ATM",
-        gps: "Yes",
-        bluetooth: "5.3"
+        type: "گلس سرامیکی",
+        feature: "انعطاف‌پذیر",
+        protection: "ضد ضربه",
+        coverage: "تمام‌صفحه"
     }
 },
 
 {
     id: 14,
-    category: "watch",
-    name: "Amazfit GTR",
-    image: "assets/products/amazfit.webp",
-    price: "16,700,000",
-    brand: "Amazfit",
+    category: "privacy-glass",
+    name: "گلس حریم خصوصی فول کاور",
+    image: "assets/products/privacy-full-glass.webp",
+    price: "310,000",
+    brand: "RayanTag",
 
-    description:
-        "ساعت هوشمند Amazfit با باتری فوق‌العاده و GPS داخلی.",
+    description: "گلس فول کاور برای محافظت از صفحه نمایش همراه با قابلیت حفظ حریم خصوصی.",
 
     specs: {
-        display: "AMOLED",
-        battery: "21 Days",
-        waterproof: "5ATM",
-        gps: "Yes",
-        bluetooth: "5.2"
+        type: "گلس حریم خصوصی",
+        hardness: "9H",
+        feature: "ضد جاسوسی",
+        coverage: "فول کاور"
     }
 },
 
 {
     id: 15,
-    category: "watch",
-    name: "Haylou Watch",
-    image: "assets/products/haylouwatch.webp",
-    price: "7,290,000",
-    brand: "Haylou",
+    category: "lens-protector",
+    name: "محافظ لنز شفاف کامل",
+    image: "assets/products/clear-lens-protector.webp",
+    price: "180,000",
+    brand: "RayanTag",
 
-    description:
-        "ساعت هوشمند اقتصادی با امکانات کامل سلامتی.",
-
-    specs: {
-        display: "1.95 inch",
-        battery: "12 Days",
-        waterproof: "IP68",
-        gps: "No",
-        bluetooth: "5.0"
-    }
-},
-
-{
-    id: 16,
-    category: "powerbank",
-    name: "Anker 20000",
-    image: "assets/products/anker20000.webp",
-    price: "4,990,000",
-    brand: "Anker",
-
-    description:
-        "پاوربانک ۲۰۰۰۰ میلی‌آمپری انکر با شارژ سریع.",
+    description: "محافظ شفاف لنز برای کمک به جلوگیری از خط و خش بدون تغییر محسوس ظاهر دوربین.",
 
     specs: {
-        capacity: "20000mAh",
-        output: "22.5W",
-        ports: "USB-A + USB-C",
-        fastCharge: "Yes",
-        weight: "345g"
-    }
-},
-
-{
-    id: 17,
-    category: "powerbank",
-    name: "Baseus 20000",
-    image: "assets/products/baseus20000.webp",
-    price: "5,990,000",
-    brand: "Baseus",
-
-    description:
-        "پاوربانک Baseus با شارژ سریع PD و QC.",
-
-    specs: {
-        capacity: "20000mAh",
-        output: "22.5W",
-        ports: "USB-A + USB-C",
-        fastCharge: "Yes",
-        weight: "360g"
-    }
-},
-
-{
-    id: 18,
-    category: "powerbank",
-    name: "Xiaomi 20000",
-    image: "assets/products/xiaomi20000.webp",
-    price: "3,590,000",
-    brand: "Xiaomi",
-
-    description:
-        "پاوربانک اصلی شیائومی با دو خروجی USB.",
-
-    specs: {
-        capacity: "20000mAh",
-        output: "18W",
-        ports: "2×USB + USB-C",
-        fastCharge: "Yes",
-        weight: "338g"
-    }
-},
-
-{
-    id: 19,
-    category: "powerbank",
-    name: "Green Lion 20000",
-    image: "assets/products/greenlion20000.webp",
-    price: "6,790,000",
-    brand: "Green Lion",
-
-    description:
-        "پاوربانک گرین لاین با ظرفیت ۲۰۰۰۰ میلی‌آمپر و شارژ سریع PD.",
-
-    specs: {
-        capacity: "20000mAh",
-        output: "22.5W",
-        ports: "USB-A + USB-C",
-        fastCharge: "Yes",
-        weight: "350g"
-    }
-},
-
-{
-    id: 20,
-    category: "powerbank",
-    name: "Mcdodo 20000",
-    image: "assets/products/mcdodo20000.webp",
-    price: "8,490,000",
-    brand: "Mcdodo",
-
-    description:
-        "پاوربانک مک‌دودو با طراحی مدرن و پشتیبانی از شارژ سریع.",
-
-    specs: {
-        capacity: "20000mAh",
-        output: "22.5W",
-        ports: "USB-A + USB-C",
-        fastCharge: "Yes",
-        weight: "340g"
-    }
-},
-
-{
-    id: 21,
-    category: "charger",
-    name: "45W Fast Charger",
-    image: "assets/products/charger45w.webp",
-    price: "7,490,000",
-    brand: "Samsung",
-
-    description:
-        "شارژر دیواری ۴۵ وات با پشتیبانی از Super Fast Charging.",
-
-    specs: {
-        power: "45W",
-        port: "USB-C",
-        fastCharge: "PD",
-        color: "White",
-        cable: "Not Included"
-    }
-},
-
-{
-    id: 22,
-    category: "charger",
-    name: "20W Fast Charger",
-    image: "assets/products/charger20w.webp",
-    price: "4,490,000",
-    brand: "Apple",
-
-    description:
-        "شارژر ۲۰ وات مناسب آیفون و آیپد با خروجی USB-C.",
-
-    specs: {
-        power: "20W",
-        port: "USB-C",
-        fastCharge: "PD",
-        color: "White",
-        cable: "Not Included"
-    }
-},
-
-{
-    id: 23,
-    category: "charger",
-    name: "Type-C Cable 100W",
-    image: "assets/products/typec.webp",
-    price: "990,000",
-    brand: "Baseus",
-
-    description:
-        "کابل Type-C با توان ۱۰۰ وات مناسب شارژ سریع و انتقال اطلاعات.",
-
-    specs: {
-        type: "USB-C to USB-C",
-        length: "1m",
-        power: "100W",
-        data: "480Mbps",
-        material: "Braided"
-    }
-},
-
-{
-    id: 24,
-    category: "charger",
-    name: "Lightning Cable",
-    image: "assets/products/lightning.webp",
-    price: "2,490,000",
-    brand: "Apple",
-
-    description:
-        "کابل Lightning مناسب آیفون و آیپد با کیفیت ساخت بالا.",
-
-    specs: {
-        type: "USB-C to Lightning",
-        length: "1m",
-        power: "27W",
-        data: "480Mbps",
-        material: "PVC"
-    }
-},
-
-{
-    id: 25,
-    category: "charger",
-    name: "100W Fast Charging Cable",
-    image: "assets/products/cable100w.webp",
-    price: "1,250,000",
-    brand: "Mcdodo",
-
-    description:
-        "کابل شارژ سریع ۱۰۰ وات مناسب لپ‌تاپ، تبلت و گوشی.",
-
-    specs: {
-        type: "USB-C to USB-C",
-        length: "1.2m",
-        power: "100W",
-        data: "480Mbps",
-        material: "Braided Nylon"
+        type: "محافظ لنز شفاف",
+        material: "شیشه",
+        feature: "شفافیت بالا",
+        installation: "نصب آسان"
     }
 }
-
 ];
