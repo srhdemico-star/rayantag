@@ -1,48 +1,73 @@
 "use strict";
-
-/* ==========================================
-   SabzAbi Store
-   products-page.js FINAL
-========================================== */
-
+/* ========================================== RAYANTAG.IR PRODUCTS PAGE ========================================== */
+/* ========================================== ELEMENTS ========================================== */
 const productsContainer = document.getElementById("productsContainer");
 const searchInput = document.getElementById("searchInput");
 const categoryFilter = document.getElementById("categoryFilter");
 const sortProducts = document.getElementById("sortProducts");
-
+const noProducts = document.getElementById("noProducts");
+/* ========================================== SAFETY CHECK ========================================== */
+const allProducts = typeof PRODUCTS !== "undefined" ? PRODUCTS : [];
+/* ========================================== CREATE PRODUCT CARD ========================================== */
 function createCard(product) {
+const featuredBadge =
+    product.featured === true
+        ? `
+            <span class="product-badge">
+                ویژه
+            </span>
+          `
+        : "";
 
-    return `
+
+return `
+
     <div class="product-card">
 
-        <span class="product-badge">ویژه</span>
 
-        <button class="wishlist">❤</button>
+        ${featuredBadge}
+
+
+        <!-- FAVORITE -->
+
+        <button
+            class="wishlist"
+            type="button"
+            aria-label="افزودن به علاقه‌مندی‌ها">
+
+            <i class="fa-regular fa-heart"></i>
+
+        </button>
+
+
+        <!-- PRODUCT IMAGE -->
 
         <img
             src="${product.image}"
             alt="${product.name}"
             loading="lazy">
 
+
+        <!-- PRODUCT INFO -->
+
         <div class="product-info">
 
-            <div class="rating">
-                ★★★★★
-            </div>
 
-            <h3>${product.name}</h3>
+            <h3>
+                ${product.name}
+            </h3>
 
-            <p>${product.description}</p>
 
-            <div class="price">
+            <p>
+                ${product.description || ""}
+            </p>
 
-                <span class="price-title">
 
-                    شروع از
+            <!-- PRICE -->
 
-                </span>
+            <div class="product-price">
 
-                <span>
+                <span class="price">
 
                     ${product.price} تومان
 
@@ -50,199 +75,341 @@ function createCard(product) {
 
             </div>
 
-            <a href="product.html?id=${product.id}" class="btn-product">
+
+            <!-- BUTTON -->
+
+            <a
+                href="product.html?id=${product.id}"
+                class="btn-product">
 
                 مشاهده محصول
 
             </a>
 
+
         </div>
 
+
     </div>
-    `;
+
+`;
 }
-
+/* ========================================== RENDER PRODUCTS ========================================== */
 function renderProducts(list) {
+if (!productsContainer) return;
 
-    if (!productsContainer) return;
 
-    productsContainer.innerHTML = "";
+/* پاک کردن محصولات قبلی */
 
-    if (list.length === 0) {
+productsContainer.innerHTML = "";
+
+
+/* اگر محصولی پیدا نشد */
+
+if (!list || list.length === 0) {
+
+    if (noProducts) {
+
+        noProducts.style.display = "block";
+
+    } else {
 
         productsContainer.innerHTML = `
 
-        <div class="empty-products">
+            <div class="empty-products">
 
-            محصولی پیدا نشد.
+                <i class="fa-solid fa-box-open"></i>
 
-        </div>
+                <h3>
+                    محصولی پیدا نشد
+                </h3>
+
+                <p>
+                    لطفاً عبارت یا دسته‌بندی دیگری را انتخاب کنید.
+                </p>
+
+            </div>
 
         `;
 
-        return;
-
     }
 
-    list.forEach(product => {
-
-        productsContainer.innerHTML += createCard(product);
-
-    });
+    return;
 
 }
 
-/* ==========================================
-   FILTER + SEARCH + SORT
-========================================== */
 
+/* مخفی کردن پیام عدم وجود محصول */
+
+if (noProducts) {
+
+    noProducts.style.display = "none";
+
+}
+
+
+/* ساخت کارت محصولات */
+
+list.forEach(product => {
+
+    productsContainer.innerHTML +=
+        createCard(product);
+
+});
+}
+
+/* ========================================== UPDATE PRODUCTS SEARCH + FILTER + SORT ========================================== */
 function updateProducts() {
+let filteredProducts = [...allProducts];
 
-    let filtered = [...PRODUCTS];
 
-    /* ---------- Search ---------- */
+/* ==========================================
+   SEARCH
+   ========================================== */
 
-    if (searchInput && searchInput.value.trim() !== "") {
+if (
+    searchInput &&
+    searchInput.value.trim() !== ""
+) {
 
-        const keyword = searchInput.value
+    const keyword =
+        searchInput.value
             .trim()
             .toLowerCase();
 
-        filtered = filtered.filter(product =>
 
-            product.name
-                .toLowerCase()
-                .includes(keyword)
+    filteredProducts =
+        filteredProducts.filter(product => {
 
-        );
 
-    }
+            const productName =
+                String(product.name || "")
+                    .toLowerCase();
 
-    /* ---------- Category ---------- */
 
-    if (
-        categoryFilter &&
-        categoryFilter.value !== "all"
-    ) {
+            const productDescription =
+                String(product.description || "")
+                    .toLowerCase();
 
-        filtered = filtered.filter(product =>
+
+            const productCategory =
+                String(product.category || "")
+                    .toLowerCase();
+
+
+            return (
+
+                productName.includes(keyword) ||
+
+                productDescription.includes(keyword) ||
+
+                productCategory.includes(keyword)
+
+            );
+
+        });
+
+}
+
+
+/* ==========================================
+   CATEGORY FILTER
+   ========================================== */
+
+if (
+    categoryFilter &&
+    categoryFilter.value !== "all"
+) {
+
+    filteredProducts =
+        filteredProducts.filter(product =>
 
             String(product.category).trim() ===
             String(categoryFilter.value).trim()
 
         );
 
-    }
-
-    /* ---------- Sort ---------- */
-
-    if (sortProducts) {
-
-        switch (sortProducts.value) {
-
-            case "cheap":
-
-                filtered.sort((a, b) =>
-
-                    parseInt(
-                        String(a.price).replace(/,/g, "")
-                    )
-
-                    -
-
-                    parseInt(
-                        String(b.price).replace(/,/g, "")
-                    )
-
-                );
-
-                break;
-
-            case "expensive":
-
-                filtered.sort((a, b) =>
-
-                    parseInt(
-                        String(b.price).replace(/,/g, "")
-                    )
-
-                    -
-
-                    parseInt(
-                        String(a.price).replace(/,/g, "")
-                    )
-
-                );
-
-                break;
-
-            case "new":
-
-                filtered.sort((a, b) =>
-
-                    Number(b.id) - Number(a.id)
-
-                );
-
-                break;
-
-        }
-
-    }
-
-    renderProducts(filtered);
-
 }
+
 
 /* ==========================================
-   EVENTS
-========================================== */
-
-if (searchInput) {
-
-    searchInput.addEventListener(
-        "input",
-        updateProducts
-    );
-
-}
-
-if (categoryFilter) {
-
-    categoryFilter.addEventListener(
-        "change",
-        updateProducts
-    );
-
-}
+   SORT PRODUCTS
+   ========================================== */
 
 if (sortProducts) {
 
-    sortProducts.addEventListener(
-        "change",
-        updateProducts
+
+    switch (sortProducts.value) {
+
+
+        /* ارزان‌ترین */
+
+        case "cheap":
+
+            filteredProducts.sort((a, b) => {
+
+                const priceA =
+                    Number(
+                        String(a.price)
+                            .replace(/[^\d]/g, "")
+                    );
+
+
+                const priceB =
+                    Number(
+                        String(b.price)
+                            .replace(/[^\d]/g, "")
+                    );
+
+
+                return priceA - priceB;
+
+            });
+
+            break;
+
+
+        /* گران‌ترین */
+
+        case "expensive":
+
+            filteredProducts.sort((a, b) => {
+
+                const priceA =
+                    Number(
+                        String(a.price)
+                            .replace(/[^\d]/g, "")
+                    );
+
+
+                const priceB =
+                    Number(
+                        String(b.price)
+                            .replace(/[^\d]/g, "")
+                    );
+
+
+                return priceB - priceA;
+
+            });
+
+            break;
+
+
+        /* جدیدترین */
+
+        case "new":
+
+            filteredProducts.sort((a, b) =>
+
+                Number(b.id) -
+                Number(a.id)
+
+            );
+
+            break;
+
+
+        /* حالت پیش‌فرض */
+
+        default:
+
+            filteredProducts.sort((a, b) =>
+
+                Number(a.id) -
+                Number(b.id)
+
+            );
+
+            break;
+
+    }
+
+}
+
+
+/* ==========================================
+   RENDER FINAL PRODUCTS
+   ========================================== */
+
+renderProducts(filteredProducts);
+}
+
+/* ========================================== EVENTS ========================================== */
+/* SEARCH EVENT */
+if (searchInput) {
+searchInput.addEventListener(
+
+    "input",
+
+    function () {
+
+        updateProducts();
+
+    }
+
+);
+}
+/* CATEGORY EVENT */
+if (categoryFilter) {
+categoryFilter.addEventListener(
+
+    "change",
+
+    function () {
+
+        updateProducts();
+
+    }
+
+);
+}
+/* SORT EVENT */
+if (sortProducts) {
+sortProducts.addEventListener(
+
+    "change",
+
+    function () {
+
+        updateProducts();
+
+    }
+
+);
+}
+/* ========================================== GET CATEGORY FROM URL ========================================== */
+/* Example:
+products.html?category=transparent-case
+products.html?category=magsafe-case
+products.html?category=full-glass
+products.html?category=privacy-glass
+products.html?category=lens-protector */
+const urlParams = new URLSearchParams( window.location.search );
+const selectedCategory = urlParams.get("category");
+if ( selectedCategory && categoryFilter ) {
+const categoryExists =
+    Array.from(
+        categoryFilter.options
+    ).some(option =>
+
+        option.value === selectedCategory
+
     );
 
-}
 
-/* ==========================================
-   FIRST LOAD
-========================================== */
+if (categoryExists) {
 
-/* ==========================================
-   FIRST LOAD
-========================================== */
-
-const params = new URLSearchParams(window.location.search);
-
-const selectedCategory = params.get("category");
-
-if (selectedCategory && categoryFilter) {
-
-    categoryFilter.value = selectedCategory;
+    categoryFilter.value =
+        selectedCategory;
 
 }
+}
+/* ========================================== FIRST LOAD ========================================== */
+document.addEventListener( "DOMContentLoaded",
+function () {
 
-updateProducts();
+    updateProducts();
 
-
+}
+);
