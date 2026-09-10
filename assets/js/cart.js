@@ -1,22 +1,28 @@
 "use strict";
 
 /* ======================================
-   SabzAbi Store
-   cart.js FINAL
+   RAYANTAG
+   cart.js
 ====================================== */
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+
 /* ======================================
-   Save Cart
+   SAVE CART
 ====================================== */
 
 function saveCart() {
     localStorage.setItem("cart", JSON.stringify(cart));
+
+    if (typeof updateCartCounter === "function") {
+        updateCartCounter();
+    }
 }
 
+
 /* ======================================
-   Cart Counter
+   CART COUNT
 ====================================== */
 
 function updateCartCount() {
@@ -26,204 +32,190 @@ function updateCartCount() {
     if (!counter) return;
 
     const total = cart.reduce((sum, item) => {
-
-        return sum + item.quantity;
-
+        return sum + (Number(item.quantity) || 0);
     }, 0);
 
-    counter.innerText = total;
+    counter.textContent = total;
 }
 
-/* ======================================
-   Add To Cart
-====================================== */
-
-function addToCart(product) {
-
-    const existingItem = cart.find(item => item.id === product.id);
-
-    if (existingItem) {
-
-        existingItem.quantity++;
-
-    } else {
-
-        cart.push({
-
-            id: product.id,
-
-            name: product.name,
-
-            image: product.image,
-
-            price: product.price,
-
-            quantity: 1
-
-        });
-
-    }
-
-    saveCart();
-
-updateCartCount();
-
-showCart();
-
-showToast("✅ محصول به سبد خرید اضافه شد");
-   
-}
 
 /* ======================================
-   Show Cart
+   RENDER CART
 ====================================== */
 
 function showCart() {
 
-    const container = document.querySelector("#cartItems");
+    const container =
+        document.querySelector("#cartItems");
 
-    const totalBox = document.querySelector("#cartTotal");
+    const totalBox =
+        document.querySelector("#cartTotal");
 
     if (!container) return;
+
 
     if (cart.length === 0) {
 
         container.innerHTML = `
+            <div class="empty-cart">
+                <h2>سبد خرید شما خالی است</h2>
 
-        <div class="empty-cart">
-
-            <h2>سبد خرید شما خالی است</h2>
-
-            <a href="products.html" class="btn">
-
-                مشاهده محصولات
-
-            </a>
-
-        </div>
-
+                <a href="products.html" class="btn">
+                    مشاهده محصولات
+                </a>
+            </div>
         `;
 
-        if (totalBox)
-
-            totalBox.innerText = "0 تومان";
+        if (totalBox) {
+            totalBox.textContent = "0 تومان";
+        }
 
         return;
-
     }
 
-    container.innerHTML = "";
 
     let total = 0;
 
+    container.innerHTML = "";
+
+
     cart.forEach((item, index) => {
 
-        const price = Number(
+        const price =
+            Number(
+                String(item.price || "")
+                    .replace(/[^\d]/g, "")
+            ) || 0;
 
-            item.price.toString().replace(/,/g, "")
+        const quantity =
+            Number(item.quantity) || 1;
 
-        );
+        const rowTotal =
+            price * quantity;
 
-        total += price * item.quantity;
+        total += rowTotal;
 
-        const rowTotal = price * item.quantity;
 
-container.innerHTML += `
+        container.innerHTML += `
+            <div class="cart-item">
 
-<div class="cart-item">
+                <img
+                    src="${item.image || ""}"
+                    alt="${item.name || "محصول"}"
+                >
 
-    <img src="${item.image}" alt="${item.name}">
+                <div class="cart-info">
 
-    <div class="cart-info">
+                    <h3>
+                        ${item.name || "محصول"}
+                    </h3>
 
-        <h3>${item.name}</h3>
+                    <p>
+                        قیمت واحد:
+                        ${price.toLocaleString("fa-IR")}
+                        تومان
+                    </p>
 
-        <p>قیمت واحد: ${item.price} تومان</p>
+                    <p class="row-total">
 
-        <p class="row-total">
-            جمع این محصول:
-            <strong>
-                ${rowTotal.toLocaleString("fa-IR")} تومان
-            </strong>
-        </p>
+                        جمع این محصول:
 
-    </div>
+                        <strong>
+                            ${rowTotal.toLocaleString("fa-IR")}
+                            تومان
+                        </strong>
 
-    <div class="cart-actions">
+                    </p>
 
-        <button
-            class="qty-btn"
-            onclick="decreaseQty(${index})">
+                </div>
 
-            −
 
-        </button>
+                <div class="cart-actions">
 
-        <span class="qty-number">
+                    <button
+                        type="button"
+                        class="qty-btn"
+                        onclick="decreaseQty(${index})"
+                    >
+                        −
+                    </button>
 
-            ${item.quantity}
 
-        </span>
+                    <span class="qty-number">
+                        ${quantity}
+                    </span>
 
-        <button
-            class="qty-btn"
-            onclick="increaseQty(${index})">
 
-            +
+                    <button
+                        type="button"
+                        class="qty-btn"
+                        onclick="increaseQty(${index})"
+                    >
+                        +
+                    </button>
 
-        </button>
 
-        <button
-            class="remove-btn"
-            onclick="removeItem(${index})">
+                    <button
+                        type="button"
+                        class="remove-btn"
+                        onclick="removeItem(${index})"
+                    >
+                        🗑 حذف
+                    </button>
 
-            🗑 حذف
+                </div>
 
-        </button>
-
-    </div>
-
-</div>
-
-`;
-
+            </div>
+        `;
     });
+
 
     if (totalBox) {
 
-        totalBox.innerText =
-
-            total.toLocaleString("fa-IR") + " تومان";
+        totalBox.textContent =
+            total.toLocaleString("fa-IR") +
+            " تومان";
 
     }
 
 }
 
+
 /* ======================================
-   Increase Qty
+   INCREASE
 ====================================== */
 
 function increaseQty(index) {
 
-    cart[index].quantity++;
+    if (!cart[index]) return;
+
+    cart[index].quantity =
+        (Number(cart[index].quantity) || 1) + 1;
 
     saveCart();
 
     updateCartCount();
 
     showCart();
-
 }
 
+
 /* ======================================
-   Decrease Qty
+   DECREASE
 ====================================== */
 
 function decreaseQty(index) {
 
-    if (cart[index].quantity > 1) {
+    if (!cart[index]) return;
 
-        cart[index].quantity--;
+    const quantity =
+        Number(cart[index].quantity) || 1;
+
+
+    if (quantity > 1) {
+
+        cart[index].quantity =
+            quantity - 1;
 
     } else {
 
@@ -231,117 +223,194 @@ function decreaseQty(index) {
 
     }
 
-    saveCart();
-
-    updateCartCount();
-
-    showCart();
-
-}
-
-/* ======================================
-   Remove Item
-====================================== */
-
-function removeItem(index){
-
-    if(!confirm("این محصول حذف شود؟")) return;
-
-    cart.splice(index,1);
 
     saveCart();
 
     updateCartCount();
 
     showCart();
-
-    showToast("🗑 محصول حذف شد");
-
 }
 
 
 /* ======================================
-   Init
+   REMOVE
 ====================================== */
 
-document.addEventListener("DOMContentLoaded", () => {
+function removeItem(index) {
+
+    if (!cart[index]) return;
+
+
+    cart.splice(index, 1);
+
+    saveCart();
 
     updateCartCount();
 
     showCart();
 
-    const checkoutBtn = document.querySelector("#checkoutBtn");
 
-    if (checkoutBtn) {
+    if (typeof showToast === "function") {
 
-        checkoutBtn.addEventListener("click", () => {
-
-            if (cart.length === 0) {
-
-                showToast("سبد خرید خالی است.");
-
-                return;
-
-            }
-
-            let message = "سلام، می‌خواهم این محصولات را سفارش بدهم:%0A%0A";
-
-            let total = 0;
-
-            cart.forEach(item => {
-
-                const price = Number(item.price.replace(/,/g,""));
-
-                total += price * item.quantity;
-
-                message +=
-
-                `• ${item.name} × ${item.quantity}%0A` +
-
-                `${item.price} تومان%0A%0A`;
-
-            });
-
-            message +=
-
-            `جمع کل:%0A${total.toLocaleString("fa-IR")} تومان`;
-
-            const phone = "989032487485";
-
-            window.open(
-
-                `https://wa.me/${phone}?text=${message}`,
-
-                "_blank"
-
-            );
-
-        });
+        showToast(
+            "🗑 محصول از سبد خرید حذف شد"
+        );
 
     }
 
-   const clearBtn = document.querySelector("#clearCartBtn");
+}
 
-if(clearBtn){
 
-    clearBtn.addEventListener("click",()=>{
+/* ======================================
+   CLEAR CART
+====================================== */
 
-        if(!confirm("سبد خرید خالی شود؟")) return;
+function clearCart() {
 
-        localStorage.removeItem("cart");
+    if (cart.length === 0) return;
 
-        cart = [];
+
+    if (
+        !confirm(
+            "سبد خرید خالی شود؟"
+        )
+    ) {
+        return;
+    }
+
+
+    cart = [];
+
+    localStorage.removeItem("cart");
+
+    updateCartCount();
+
+    showCart();
+
+
+    if (typeof showToast === "function") {
+
+        showToast(
+            "🗑 سبد خرید خالی شد"
+        );
+
+    }
+
+}
+
+
+/* ======================================
+   WHATSAPP CHECKOUT
+====================================== */
+
+function checkoutCart() {
+
+    if (cart.length === 0) {
+
+        if (typeof showToast === "function") {
+            showToast("سبد خرید خالی است.");
+        }
+
+        return;
+    }
+
+
+    let message =
+        "سلام، می‌خواهم این محصولات را سفارش بدهم:\n\n";
+
+
+    let total = 0;
+
+
+    cart.forEach(item => {
+
+        const price =
+            Number(
+                String(item.price || "")
+                    .replace(/[^\d]/g, "")
+            ) || 0;
+
+        const quantity =
+            Number(item.quantity) || 1;
+
+
+        total +=
+            price * quantity;
+
+
+        message +=
+            `• ${item.name} × ${quantity}\n` +
+            `${price.toLocaleString("fa-IR")} تومان\n\n`;
+
+    });
+
+
+    message +=
+        `جمع کل:\n${total.toLocaleString("fa-IR")} تومان`;
+
+
+    const phone =
+        "989032487485";
+
+
+    const whatsappURL =
+        "https://wa.me/" +
+        phone +
+        "?text=" +
+        encodeURIComponent(message);
+
+
+    window.open(
+        whatsappURL,
+        "_blank"
+    );
+
+}
+
+
+/* ======================================
+   INIT
+====================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
 
         updateCartCount();
 
         showCart();
 
-        showToast("🗑 سبد خرید خالی شد");
 
-    });
+        const clearBtn =
+            document.querySelector(
+                "#clearCartBtn"
+            );
 
-}
+
+        if (clearBtn) {
+
+            clearBtn.addEventListener(
+                "click",
+                clearCart
+            );
+
+        }
 
 
-});
+        const checkoutBtn =
+            document.querySelector(
+                "#checkoutBtn"
+            );
 
+
+        if (checkoutBtn) {
+
+            checkoutBtn.addEventListener(
+                "click",
+                checkoutCart
+            );
+
+        }
+
+    }
+);
