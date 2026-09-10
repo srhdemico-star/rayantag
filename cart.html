@@ -1,126 +1,437 @@
 <!DOCTYPE html>
-
 <html lang="fa" dir="rtl">
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<title>سبد خرید | رایان تگ</title>
+    <title>سبد خرید | رایان تگ</title>
 
-<link rel="stylesheet" href="assets/css/style.css">
+    <meta
+        name="description"
+        content="سبد خرید فروشگاه رایان تگ"
+    >
 
-<link rel="stylesheet" href="assets/css/responsive.css">
+    <link
+        rel="icon"
+        type="image/png"
+        href="assets/favicons/favicon.png"
+    >
+
+    <link
+        rel="stylesheet"
+        href="assets/css/style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="assets/css/responsive.css"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        .cart-page {
+            padding: 45px 0 70px;
+        }
+
+        .cart-items {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .cart-item {
+            display: grid;
+            grid-template-columns: 110px 1fr auto;
+            align-items: center;
+            gap: 20px;
+            padding: 18px;
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 18px;
+        }
+
+        .cart-item img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            border-radius: 14px;
+            background: #fafafa;
+        }
+
+        .cart-info h3 {
+            margin: 0 0 10px;
+            font-size: 16px;
+        }
+
+        .cart-info p {
+            margin: 6px 0;
+            color: #777;
+            font-size: 13px;
+        }
+
+        .cart-row-total {
+            color: #409b8c !important;
+            font-weight: 800;
+        }
+
+        .cart-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .qty-btn {
+            width: 38px;
+            height: 38px;
+            border: 1px solid #ddd;
+            border-radius: 9px;
+            background: #fafafa;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .qty-number {
+            min-width: 30px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .remove-btn {
+            margin-right: 10px;
+            padding: 9px 13px;
+            border: 0;
+            border-radius: 9px;
+            background: #f5eeee;
+            color: #c33;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .cart-total {
+            margin-top: 25px;
+            padding: 25px;
+            background: #fafafa;
+            border-radius: 18px;
+        }
+
+        .cart-total h2 {
+            margin: 0 0 20px;
+        }
+
+        .cart-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .empty-cart {
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .empty-cart h2 {
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 700px) {
+
+            .cart-item {
+                grid-template-columns: 80px 1fr;
+            }
+
+            .cart-item img {
+                width: 80px;
+                height: 80px;
+            }
+
+            .cart-actions {
+                grid-column: 1 / -1;
+                justify-content: flex-start;
+            }
+
+            .remove-btn {
+                margin-right: 5px;
+            }
+
+        }
+
+    </style>
 
 </head>
 
+
 <body>
+
 
 <header class="header">
 
-<div class="container">
+    <div class="container">
 
-<a href="index.html" class="logo">
+        <a href="index.html" class="logo">
 
-SabzAbi Store
+            <img
+                src="assets/logo/logo.webp"
+                alt="رایان تگ"
+            >
 
-</a>
+            <div>
 
-<nav>
+                <h2>رایان تگ</h2>
 
-<a href="index.html">خانه</a>
+                <span>
+                    Mobile & Accessories
+                </span>
 
-<a href="products.html">محصولات</a>
+            </div>
 
-<a href="about.html">درباره ما</a>
+        </a>
 
-<a href="contact.html">تماس با ما</a>
 
-<a href="terms.html">قوانین</a>
+        <nav>
 
-</nav>
+            <ul>
 
-<a href="cart.html" class="cart-icon">
+                <li>
+                    <a href="index.html">
+                        خانه
+                    </a>
+                </li>
 
-🛒
+                <li>
+                    <a href="products.html">
+                        محصولات
+                    </a>
+                </li>
 
-<span id="cartCount">
+                <li>
+                    <a href="about.html">
+                        درباره ما
+                    </a>
+                </li>
 
-0
+                <li>
+                    <a href="contact.html">
+                        تماس با ما
+                    </a>
+                </li>
 
-</span>
+                <li>
+                    <a href="terms.html">
+                        قوانین
+                    </a>
+                </li>
 
-</a>
+            </ul>
 
-</div>
+        </nav>
+
+
+        <a
+            href="cart.html"
+            class="cart-icon"
+        >
+
+            🛒
+
+            <span id="cartCount">
+                0
+            </span>
+
+        </a>
+
+    </div>
 
 </header>
 
+
 <section class="page-title">
 
-<div class="container">
+    <div class="container">
 
-<h1>
+        <h1>
+            سبد خرید
+        </h1>
 
-سبد خرید
-
-</h1>
-
-</div>
+    </div>
 
 </section>
+
 
 <section class="cart-page">
 
-<div class="container">
+    <div class="container">
 
-<div id="cartItems">
 
-</div>
+        <div id="cartItems">
+        </div>
 
-<div class="cart-total">
 
-<h2>
+        <div class="cart-total">
 
-جمع کل:
+            <h2>
 
-<span id="cartTotal">
+                جمع کل:
 
-0 تومان
+                <span id="cartTotal">
+                    0 تومان
+                </span>
 
-</span>
+            </h2>
 
-</h2>
 
-<div class="cart-buttons">
+            <div class="cart-buttons">
 
-    <a href="products.html" class="btn">
-        ادامه خرید
-    </a>
+                <a
+                    href="products.html"
+                    class="btn"
+                >
+                    ادامه خرید
+                </a>
 
-    <button id="clearCartBtn" class="btn btn-danger">
-        خالی کردن سبد
-    </button>
 
-    <button id="checkoutBtn" class="btn">
-        ثبت سفارش
-    </button>
+                <button
+                    type="button"
+                    id="clearCartBtn"
+                    class="btn btn-danger"
+                >
+                    خالی کردن سبد
+                </button>
 
-</div>
 
-</div>
-</div>
+                <button
+                    type="button"
+                    id="checkoutBtn"
+                    class="btn"
+                >
+                    ثبت سفارش در واتساپ
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </section>
-    
+
+
+<footer class="footer">
+
+    <div class="container">
+
+        <div class="footer-grid">
+
+            <div>
+
+                <h3>
+                    رایان تگ
+                </h3>
+
+                <p>
+                    فروشگاه تخصصی لوازم جانبی موبایل،
+                    قاب، گلس و محافظ لنز.
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <h4>
+                    دسترسی سریع
+                </h4>
+
+                <ul>
+
+                    <li>
+                        <a href="index.html">
+                            خانه
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="products.html">
+                            محصولات
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="about.html">
+                            درباره ما
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="contact.html">
+                            تماس با ما
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <div>
+
+                <h4>
+                    اطلاعات فروشگاه
+                </h4>
+
+                <p>
+                    اصفهان
+                </p>
+
+                <p>
+                    09032487485
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <p>
+                © 2026 رایان تگ | تمامی حقوق محفوظ است.
+            </p>
+
+        </div>
+
+    </div>
+
+</footer>
+
 
 <script src="assets/js/products.js"></script>
 
 <script src="assets/js/app.js"></script>
 
 <script src="assets/js/cart.js"></script>
+
 
 </body>
 
