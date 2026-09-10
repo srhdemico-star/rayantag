@@ -505,7 +505,7 @@
 
                         <button
                             type="button"
-                            id="minus"
+                            id="productMinus"
                             aria-label="کاهش تعداد"
                         >
                             −
@@ -514,7 +514,7 @@
 
                         <input
                             type="number"
-                            id="quantity"
+                            id="productQuantity"
                             value="1"
                             min="1"
                             max="99"
@@ -524,7 +524,7 @@
 
                         <button
                             type="button"
-                            id="plus"
+                            id="productPlus"
                             aria-label="افزایش تعداد"
                         >
                             +
@@ -536,7 +536,7 @@
                     <button
                         type="button"
                         id="addToCartButton"
-                        class="add-cart"
+                        class="product-add-cart"
                     >
                         🛒 افزودن به سبد خرید
                     </button>
@@ -809,9 +809,10 @@ document.addEventListener(
         ========================= */
 
         const products =
-            Array.isArray(window.PRODUCTS)
-                ? window.PRODUCTS
-                : [];
+    typeof PRODUCTS !== "undefined" &&
+    Array.isArray(PRODUCTS)
+        ? PRODUCTS
+        : [];
 
 
         /* =========================
@@ -926,18 +927,18 @@ document.addEventListener(
             );
 
         const quantityInput =
-            document.getElementById(
-                "quantity"
+            document.getElementById("productQuantity")
+        
             );
 
         const minusButton =
-            document.getElementById(
-                "minus"
+            document.getElementById("productMinus")
+    
             );
 
         const plusButton =
-            document.getElementById(
-                "plus"
+            document.getElementById("productPlus")
+    
             );
 
 
@@ -1328,10 +1329,12 @@ document.addEventListener(
             params.get("id");
 
         const products =
-            Array.isArray(window.PRODUCTS)
-                ? window.PRODUCTS
-                : [];
+    typeof PRODUCTS !== "undefined" &&
+    Array.isArray(PRODUCTS)
+        ? PRODUCTS
+        : [];
 
+        
         const currentProduct =
             products.find(function (item) {
 
