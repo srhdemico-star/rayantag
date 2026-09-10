@@ -1,662 +1,1453 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>محصول | رایان تگ</title>
-<meta name="description" content="مشاهده مشخصات محصول در فروشگاه رایان تگ">
+    <meta charset="UTF-8">
 
-<link rel="icon" href="assets/favicons/favicon.png">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<link rel="stylesheet" href="assets/css/style.css">
-<link rel="stylesheet" href="assets/css/responsive.css">
+    <title>محصول | رایان تگ</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <meta
+        name="description"
+        content="مشاهده مشخصات و خرید محصولات رایان تگ"
+    >
 
-<style>
-.product-page{
-    padding:45px 0;
-}
+    <meta
+        name="theme-color"
+        content="#111111"
+    >
 
-.product-layout{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:45px;
-    align-items:start;
-}
+    <link
+        rel="icon"
+        type="image/png"
+        href="assets/favicons/favicon.png"
+    >
 
-.product-image-box{
-    background:#fafafa;
-    border-radius:24px;
-    min-height:500px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:35px;
-}
+    <link
+        rel="stylesheet"
+        href="assets/css/style.css"
+    >
 
-.product-image-box img{
-    width:100%;
-    height:430px;
-    object-fit:contain;
-}
+    <link
+        rel="stylesheet"
+        href="assets/css/responsive.css"
+    >
 
-.product-info{
-    padding:15px 0;
-}
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
 
-.product-category{
-    color:#409b8c;
-    font-weight:700;
-    font-size:14px;
-    margin-bottom:12px;
-}
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
 
-.product-title{
-    font-size:30px;
-    line-height:1.8;
-    margin:0 0 15px;
-}
+    <link
+        href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet"
+    >
 
-.product-price{
-    color:#409b8c;
-    font-size:25px;
-    font-weight:900;
-    margin:20px 0;
-}
+    <style>
 
-.product-description{
-    color:#666;
-    line-height:2.2;
-    margin:20px 0;
-}
+        * {
+            box-sizing: border-box;
+        }
 
-.product-specs{
-    margin-top:30px;
-}
+        body {
+            font-family: "Vazirmatn", sans-serif;
+        }
 
-.spec-row{
-    display:flex;
-    justify-content:space-between;
-    gap:20px;
-    padding:13px 0;
-    border-bottom:1px solid #eee;
-}
+        .product-page {
+            padding: 45px 0 70px;
+        }
 
-.spec-key{
-    color:#777;
-}
+        .product-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: start;
+        }
 
-.spec-value{
-    font-weight:700;
-}
+        /* =========================
+           PRODUCT IMAGE
+        ========================= */
 
-.back-products{
-    display:inline-block;
-    margin-top:25px;
-    padding:13px 25px;
-    border-radius:12px;
-    background:#111;
-    color:#fff;
-    text-decoration:none;
-}
+        .product-gallery {
+            width: 100%;
+        }
 
-.product-error{
-    text-align:center;
-    padding:100px 20px;
-}
+        .product-image-box {
+            width: 100%;
+            height: 520px;
+            background: #fafafa;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 1px solid #f0f0f0;
+        }
 
-@media(max-width:800px){
+        .product-image-box img {
+            width: 100%;
+            height: 100%;
+            padding: 35px;
+            object-fit: contain;
+            display: block;
+        }
 
-    .product-layout{
-        grid-template-columns:1fr;
-        gap:20px;
-    }
+        /* =========================
+           PRODUCT INFO
+        ========================= */
 
-    .product-image-box{
-        min-height:330px;
-    }
+        .product-info {
+            padding: 10px 0;
+        }
 
-    .product-image-box img{
-        height:300px;
-    }
+        .product-category {
+            display: inline-block;
+            margin-bottom: 12px;
+            color: #409b8c;
+            font-size: 14px;
+            font-weight: 700;
+        }
 
-    .product-title{
-        font-size:23px;
-    }
+        .product-title {
+            margin: 0 0 18px;
+            font-size: 30px;
+            line-height: 1.8;
+            font-weight: 900;
+            color: #171717;
+        }
 
-    .product-buy-box{
-    margin-top:25px;
-    display:flex;
-    gap:12px;
-    align-items:center;
-}
+        .product-price {
+            margin: 15px 0 20px;
+            color: #409b8c;
+            font-size: 26px;
+            font-weight: 900;
+        }
 
-.quantity-control{
-    display:flex;
-    align-items:center;
-    border:1px solid #ddd;
-    border-radius:12px;
-    overflow:hidden;
-    height:52px;
-}
+        .product-description {
+            margin: 20px 0;
+            color: #666;
+            font-size: 15px;
+            line-height: 2.2;
+        }
 
-.quantity-control button{
-    width:42px;
-    height:52px;
-    border:0;
-    background:#f5f5f5;
-    font-size:22px;
-    cursor:pointer;
-}
+        .stock-status {
+            color: #24966f;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
 
-.quantity-control input{
-    width:50px;
-    height:52px;
-    border:0;
-    text-align:center;
-    font-family:inherit;
-    font-size:16px;
-    font-weight:700;
-}
+        /* =========================
+           BUY BOX
+        ========================= */
 
-.add-to-cart-btn{
-    flex:1;
-    height:52px;
-    border:0;
-    border-radius:12px;
-    background:#111;
-    color:#fff;
-    font-family:inherit;
-    font-size:15px;
-    font-weight:800;
-    cursor:pointer;
-}
+        .product-buy-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 25px;
+        }
 
-.add-to-cart-btn:hover{
-    background:#333;
-}
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            height: 52px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #fff;
+            flex-shrink: 0;
+        }
 
-@media(max-width:600px){
+        .quantity-control button {
+            width: 44px;
+            height: 52px;
+            border: 0;
+            background: #f6f6f6;
+            font-family: inherit;
+            font-size: 22px;
+            cursor: pointer;
+        }
 
-    .product-buy-box{
-        flex-direction:column;
-        align-items:stretch;
-    }
+        .quantity-control button:hover {
+            background: #eaeaea;
+        }
 
-    .quantity-control{
-        width:100%;
-        justify-content:center;
-    }
+        .quantity-control input {
+            width: 55px;
+            height: 52px;
+            border: 0;
+            outline: 0;
+            text-align: center;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 700;
+            background: #fff;
+        }
 
-    .add-to-cart-btn{
-        width:100%;
-    }
+        .add-cart {
+            flex: 1;
+            min-height: 52px;
+            border: 0;
+            border-radius: 12px;
+            background: #111;
+            color: #fff;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: .2s;
+        }
 
-}
-</style>
+        .add-cart:hover {
+            background: #333;
+        }
+
+        /* =========================
+           BENEFITS
+        ========================= */
+
+        .product-benefits {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .product-benefit {
+            padding: 15px 10px;
+            border-radius: 14px;
+            background: #fafafa;
+            text-align: center;
+            font-size: 12px;
+            color: #555;
+        }
+
+        /* =========================
+           SPECS
+        ========================= */
+
+        .product-specs-section {
+            margin-top: 35px;
+        }
+
+        .product-specs-section h2 {
+            margin-bottom: 18px;
+            font-size: 22px;
+        }
+
+        .spec-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            padding: 13px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .spec-key {
+            color: #777;
+        }
+
+        .spec-value {
+            font-weight: 700;
+            color: #222;
+        }
+
+        /* =========================
+           RELATED
+        ========================= */
+
+        .related-products {
+            padding: 50px 0;
+        }
+
+        .related-products h2 {
+            margin-bottom: 25px;
+        }
+
+        #relatedProducts {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        /* =========================
+           ERROR
+        ========================= */
+
+        .product-error {
+            padding: 100px 20px;
+            text-align: center;
+        }
+
+        .product-error h2 {
+            margin-bottom: 15px;
+        }
+
+        .back-products {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 13px 25px;
+            border-radius: 12px;
+            background: #111;
+            color: #fff;
+            text-decoration: none;
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
+<!-- =========================
+     HEADER
+========================= -->
+
 <header class="header">
-<div class="container">
 
-<a href="index.html" class="logo">
-<img src="assets/logo/logo.webp" alt="رایان تگ">
+    <div class="container">
 
-<div>
-<h2>رایان تگ</h2>
-<span>Mobile & Accessories</span>
-</div>
-</a>
+        <a href="index.html" class="logo">
 
-<nav>
-<ul>
-<li><a href="index.html">خانه</a></li>
-<li><a href="products.html">محصولات</a></li>
-<li><a href="about.html">درباره ما</a></li>
-<li><a href="contact.html">تماس با ما</a></li>
-</ul>
-</nav>
+            <img
+                src="assets/logo/logo.webp"
+                alt="رایان تگ"
+            >
 
-<a href="cart.html" class="cart-icon">
-🛒
-<span id="cartCount">0</span>
-</a>
+            <div>
+                <h2>رایان تگ</h2>
+                <span>Mobile & Accessories</span>
+            </div>
 
-</div>
+        </a>
+
+
+        <nav>
+
+            <ul>
+
+                <li>
+                    <a href="index.html">
+                        خانه
+                    </a>
+                </li>
+
+                <li>
+                    <a href="products.html">
+                        محصولات
+                    </a>
+                </li>
+
+                <li>
+                    <a href="about.html">
+                        درباره ما
+                    </a>
+                </li>
+
+                <li>
+                    <a href="contact.html">
+                        تماس با ما
+                    </a>
+                </li>
+
+                <li>
+                    <a href="cart.html">
+                        سبد خرید
+                    </a>
+                </li>
+
+            </ul>
+
+        </nav>
+
+
+        <a
+            href="cart.html"
+            class="cart-icon"
+            aria-label="سبد خرید"
+        >
+
+            🛒
+
+            <span id="cartCount">
+                0
+            </span>
+
+        </a>
+
+    </div>
+
 </header>
 
 
+<!-- =========================
+     BREADCRUMB
+========================= -->
+
 <section class="breadcrumb">
-<div class="container">
 
-<a href="index.html">خانه</a>
-<span>/</span>
-<a href="products.html">محصولات</a>
-<span>/</span>
-<strong id="breadcrumbProduct">محصول</strong>
+    <div class="container">
 
-</div>
+        <a href="index.html">
+            خانه
+        </a>
+
+        <span>/</span>
+
+        <a href="products.html">
+            محصولات
+        </a>
+
+        <span>/</span>
+
+        <strong id="breadcrumbProduct">
+            محصول
+        </strong>
+
+    </div>
+
 </section>
 
 
+<!-- =========================
+     PRODUCT
+========================= -->
+
 <main class="product-page">
 
-<div class="container">
+    <div class="container">
 
-<div id="productContainer">
-
-<div class="product-layout">
-
-<div class="product-image-box">
-<img id="productImage" src="" alt="">
-</div>
-
-<div class="product-info">
-
-<div id="productCategory" class="product-category">
-</div>
-
-<h1 id="productTitle" class="product-title">
-در حال بارگذاری...
-</h1>
-
-<div id="productPrice" class="product-price">
-</div>
-
-<div id="productDescription" class="product-description">
-</div>
-
-    <div class="product-buy-box">
-
-    <div class="quantity-control">
-        <button type="button" id="minus">−</button>
-
-        <input
-            type="number"
-            id="quantity"
-            value="1"
-            min="1"
-            readonly
+        <div
+            id="productContainer"
+            class="product-layout"
         >
 
-        <button type="button" id="plus">+</button>
+
+            <!-- PRODUCT IMAGE -->
+
+            <div class="product-gallery">
+
+                <div class="product-image-box">
+
+                    <img
+                        id="productImage"
+                        src=""
+                        alt="محصول"
+                        loading="eager"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- PRODUCT INFORMATION -->
+
+            <div class="product-info">
+
+
+                <div
+                    id="productCategory"
+                    class="product-category"
+                ></div>
+
+
+                <h1
+                    id="productTitle"
+                    class="product-title"
+                >
+                    در حال بارگذاری...
+                </h1>
+
+
+                <div
+                    id="productPrice"
+                    class="product-price"
+                ></div>
+
+
+                <div
+                    id="stockStatus"
+                    class="stock-status"
+                >
+                    ✓ موجود در انبار
+                </div>
+
+
+                <p
+                    id="productDescription"
+                    class="product-description"
+                ></p>
+
+
+                <!-- =========================
+                     QUANTITY + ADD TO CART
+                ========================= -->
+
+                <div class="product-buy-box">
+
+
+                    <div class="quantity-control">
+
+                        <button
+                            type="button"
+                            id="minus"
+                            aria-label="کاهش تعداد"
+                        >
+                            −
+                        </button>
+
+
+                        <input
+                            type="number"
+                            id="quantity"
+                            value="1"
+                            min="1"
+                            max="99"
+                            readonly
+                        >
+
+
+                        <button
+                            type="button"
+                            id="plus"
+                            aria-label="افزایش تعداد"
+                        >
+                            +
+                        </button>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        id="addToCartButton"
+                        class="add-cart"
+                    >
+                        🛒 افزودن به سبد خرید
+                    </button>
+
+
+                </div>
+
+
+                <!-- =========================
+                     BENEFITS
+                ========================= -->
+
+                <div class="product-benefits">
+
+                    <div class="product-benefit">
+                        🚚
+                        <br>
+                        ارسال سریع
+                    </div>
+
+                    <div class="product-benefit">
+                        🛡
+                        <br>
+                        ضمانت اصالت
+                    </div>
+
+                    <div class="product-benefit">
+                        💬
+                        <br>
+                        پشتیبانی
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     SPECS
+                ========================= -->
+
+                <div class="product-specs-section">
+
+                    <h2>
+                        مشخصات محصول
+                    </h2>
+
+                    <div id="productSpecs"></div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
     </div>
-
-    <button
-        type="button"
-        id="addToCartButton"
-        class="add-to-cart-btn">
-        🛒 افزودن به سبد خرید
-    </button>
-
-</div>
-
-<div class="product-specs">
-
-<h2>مشخصات محصول</h2>
-
-<div id="productSpecs"></div>
-
-</div>
-
-<a href="products.html" class="back-products">
-← بازگشت به محصولات
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
 
 </main>
 
 
+<!-- =========================
+     RELATED PRODUCTS
+========================= -->
+
+<section class="related-products">
+
+    <div class="container">
+
+        <h2>
+            محصولات مرتبط
+        </h2>
+
+        <div id="relatedProducts"></div>
+
+    </div>
+
+</section>
+
+
+    <!-- =========================
+     FOOTER
+========================= -->
+
 <footer class="footer">
 
-<div class="container">
+    <div class="container">
 
-<div class="footer-grid">
+        <div class="footer-grid">
 
-<div>
-<h3>رایان تگ</h3>
-<p>
-فروشگاه تخصصی لوازم جانبی موبایل، قاب، گلس و محافظ لنز.
-</p>
-</div>
 
-<div>
-<h4>دسترسی سریع</h4>
+            <div>
 
-<ul>
-<li><a href="index.html">خانه</a></li>
-<li><a href="products.html">محصولات</a></li>
-<li><a href="about.html">درباره ما</a></li>
-<li><a href="contact.html">تماس با ما</a></li>
-</ul>
+                <h3>
+                    رایان تگ
+                </h3>
 
-</div>
+                <p>
+                    فروشگاه تخصصی لوازم جانبی موبایل،
+                    قاب، گلس و محافظ لنز.
+                </p>
 
-<div>
-<h4>اطلاعات فروشگاه</h4>
-<p>اصفهان</p>
-<p>rayantag.ir</p>
-</div>
+            </div>
 
-</div>
 
-<div class="footer-bottom">
-<p>© 2026 رایان تگ | تمامی حقوق محفوظ است.</p>
-</div>
+            <div>
 
-</div>
+                <h4>
+                    دسترسی سریع
+                </h4>
+
+                <ul>
+
+                    <li>
+                        <a href="index.html">
+                            خانه
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="products.html">
+                            محصولات
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="about.html">
+                            درباره ما
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="contact.html">
+                            تماس با ما
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="terms.html">
+                            قوانین
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <div>
+
+                <h4>
+                    اطلاعات فروشگاه
+                </h4>
+
+                <p>
+                    اصفهان
+                </p>
+
+                <p>
+                    09032487485
+                </p>
+
+                <p>
+                    rayantag.ir
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <p>
+                © 2026 رایان تگ | تمامی حقوق محفوظ است.
+            </p>
+
+        </div>
+
+    </div>
 
 </footer>
 
 
-<!-- اول محصولات -->
+<!-- =========================
+     ADD TO CART MESSAGE
+========================= -->
+
+<div
+    id="cartModal"
+    class="cart-modal"
+    style="display:none;"
+>
+
+    <div class="cart-modal-box">
+
+        <div class="success-icon">
+            ✓
+        </div>
+
+        <h2>
+            محصول به سبد خرید اضافه شد
+        </h2>
+
+        <p id="modalProductName"></p>
+
+        <div class="cart-modal-buttons">
+
+            <a
+                href="cart.html"
+                class="btn"
+            >
+                مشاهده سبد خرید
+            </a>
+
+            <button
+                type="button"
+                id="continueShopping"
+                class="btn btn-outline"
+            >
+                ادامه خرید
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     PRODUCTS DATA
+========================= -->
+
 <script src="assets/js/products.js"></script>
 
-<!-- سپس کد داینامیک صفحه محصول -->
+
+<!-- =========================
+     MAIN APP
+========================= -->
+
+<script src="assets/js/app.js"></script>
+
+
+<!-- =========================
+     PRODUCT PAGE SCRIPT
+========================= -->
+
 <script>
 
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
 
-    const params = new URLSearchParams(window.location.search);
 
-    const id = params.get("id");
+        /* =========================
+           GET PRODUCT ID
+        ========================= */
 
-    const products = Array.isArray(window.PRODUCTS)
-        ? window.PRODUCTS
-        : (typeof PRODUCTS !== "undefined" ? PRODUCTS : []);
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
 
-    const product = products.find(function(item){
-        return String(item.id) === String(id);
-    });
+        const productId =
+            params.get("id");
 
-    const container = document.getElementById("productContainer");
 
-    if(!product){
+        /* =========================
+           GET PRODUCTS
+        ========================= */
 
-        container.innerHTML = `
-            <div class="product-error">
-                <h2>محصول پیدا نشد</h2>
-                <p>شناسه محصول در آدرس صفحه وجود ندارد.</p>
-                <a href="products.html" class="back-products">
-                    مشاهده همه محصولات
-                </a>
-            </div>
-        `;
+        const products =
+            Array.isArray(window.PRODUCTS)
+                ? window.PRODUCTS
+                : [];
 
-        return;
+
+        /* =========================
+           FIND PRODUCT
+        ========================= */
+
+        const product =
+            products.find(function (item) {
+
+                return String(item.id) ===
+                       String(productId);
+
+            });
+
+
+        /* =========================
+           PRODUCT NOT FOUND
+        ========================= */
+
+        if (!product) {
+
+            const container =
+                document.getElementById(
+                    "productContainer"
+                );
+
+            if (container) {
+
+                container.innerHTML = `
+
+                    <div
+                        class="product-error"
+                        style="grid-column:1/-1;"
+                    >
+
+                        <h2>
+                            محصول پیدا نشد
+                        </h2>
+
+                        <p>
+                            محصول موردنظر وجود ندارد.
+                        </p>
+
+                        <a
+                            href="products.html"
+                            class="back-products"
+                        >
+                            مشاهده محصولات
+                        </a>
+
+                    </div>
+
+                `;
+
+            }
+
+            return;
+        }
+
+
+        /* =========================
+           PAGE TITLE
+        ========================= */
+
+        document.title =
+            product.name +
+            " | رایان تگ";
+
+
+        /* =========================
+           ELEMENTS
+        ========================= */
+
+        const title =
+            document.getElementById(
+                "productTitle"
+            );
+
+        const category =
+            document.getElementById(
+                "productCategory"
+            );
+
+        const image =
+            document.getElementById(
+                "productImage"
+            );
+
+        const price =
+            document.getElementById(
+                "productPrice"
+            );
+
+        const description =
+            document.getElementById(
+                "productDescription"
+            );
+
+        const breadcrumb =
+            document.getElementById(
+                "breadcrumbProduct"
+            );
+
+        const specs =
+            document.getElementById(
+                "productSpecs"
+            );
+
+        const addButton =
+            document.getElementById(
+                "addToCartButton"
+            );
+
+        const quantityInput =
+            document.getElementById(
+                "quantity"
+            );
+
+        const minusButton =
+            document.getElementById(
+                "minus"
+            );
+
+        const plusButton =
+            document.getElementById(
+                "plus"
+            );
+
+
+        /* =========================
+           PRODUCT INFORMATION
+        ========================= */
+
+        if (title) {
+
+            title.textContent =
+                product.name || "";
+
+        }
+
+
+        if (category) {
+
+            category.textContent =
+                product.category || "";
+
+        }
+
+
+        if (image) {
+
+            image.src =
+                product.image || "";
+
+            image.alt =
+                product.name || "محصول رایان تگ";
+
+        }
+
+
+        if (breadcrumb) {
+
+            breadcrumb.textContent =
+                product.name || "محصول";
+
+        }
+
+
+        /* =========================
+           PRICE
+        ========================= */
+
+        if (price) {
+
+            const numericPrice =
+                Number(
+                    String(product.price || "")
+                        .replace(/[^\d]/g, "")
+                ) || 0;
+
+
+            price.textContent =
+                numericPrice.toLocaleString(
+                    "fa-IR"
+                ) +
+                " تومان";
+
+        }
+
+
+        /* =========================
+           DESCRIPTION
+        ========================= */
+
+        if (description) {
+
+            description.textContent =
+                product.description ||
+                "توضیحات محصول به‌زودی تکمیل می‌شود.";
+
+        }
+
+
+        /* =========================
+           SPECS
+        ========================= */
+
+        if (specs) {
+
+            if (
+                product.specs &&
+                typeof product.specs === "object"
+            ) {
+
+                specs.innerHTML =
+                    Object.entries(product.specs)
+                    .map(function ([key, value]) {
+
+                        return `
+
+                            <div class="spec-row">
+
+                                <span class="spec-key">
+                                    ${key}
+                                </span>
+
+                                <span class="spec-value">
+                                    ${value}
+                                </span>
+
+                            </div>
+
+                        `;
+
+                    })
+                    .join("");
+
+            } else {
+
+                specs.innerHTML =
+                    "<p>مشخصات محصول ثبت نشده است.</p>";
+
+            }
+
+        }
+
+
+        /* =========================
+           QUANTITY +
+        ========================= */
+
+        if (plusButton && quantityInput) {
+
+            plusButton.addEventListener(
+                "click",
+                function () {
+
+                    let quantity =
+                        Number(
+                            quantityInput.value
+                        ) || 1;
+
+
+                    if (quantity < 99) {
+                        quantity++;
+                    }
+
+
+                    quantityInput.value =
+                        quantity;
+
+                }
+            );
+
+        }
+
+
+        /* =========================
+           QUANTITY -
+        ========================= */
+
+        if (minusButton && quantityInput) {
+
+            minusButton.addEventListener(
+                "click",
+                function () {
+
+                    let quantity =
+                        Number(
+                            quantityInput.value
+                        ) || 1;
+
+
+                    if (quantity > 1) {
+                        quantity--;
+                    }
+
+
+                    quantityInput.value =
+                        quantity;
+
+                }
+            );
+
+        }
+
+
+        /* =========================
+           ADD TO CART
+        ========================= */
+
+        if (addButton) {
+
+            addButton.addEventListener(
+                "click",
+                function () {
+
+
+                    const quantity =
+                        Number(
+                            quantityInput
+                                ? quantityInput.value
+                                : 1
+                        ) || 1;
+
+
+                    /*
+
+                       استفاده از تابع اصلی
+                       app.js
+
+                    */
+
+                    if (
+                        typeof addToCart ===
+                        "function"
+                    ) {
+
+                        addToCart(
+                            product.id,
+                            quantity
+                        );
+
+                    } else {
+
+
+                        /*
+
+                           Fallback
+                           اگر app.js تابع
+                           نداشت
+
+                        */
+
+                        let cart =
+                            JSON.parse(
+                                localStorage.getItem(
+                                    "cart"
+                                )
+                            ) || [];
+
+
+                        const existing =
+                            cart.find(
+                                function (item) {
+
+                                    return String(
+                                        item.id
+                                    ) ===
+                                    String(
+                                        product.id
+                                    );
+
+                                }
+                            );
+
+
+                        if (existing) {
+
+                            existing.quantity =
+                                (
+                                    Number(
+                                        existing.quantity
+                                    ) || 1
+                                ) +
+                                quantity;
+
+                        } else {
+
+                            cart.push({
+
+                                id:
+                                    product.id,
+
+                                name:
+                                    product.name,
+
+                                price:
+                                    product.price,
+
+                                image:
+                                    product.image,
+
+                                quantity:
+                                    quantity
+
+                            });
+
+                        }
+
+
+                        localStorage.setItem(
+                            "cart",
+                            JSON.stringify(cart)
+                        );
+
+                    }
+
+
+                    /* =========================
+                       BUTTON FEEDBACK
+                    ========================= */
+
+                    const oldText =
+                        addButton.textContent;
+
+
+                    addButton.textContent =
+                        "✓ به سبد خرید اضافه شد";
+
+
+                    addButton.style.background =
+                        "#24966f";
+
+
+                    setTimeout(
+                        function () {
+
+                            addButton.textContent =
+                                oldText;
+
+                            addButton.style.background =
+                                "";
+
+                        },
+                        1800
+                    );
+
+
+                }
+            );
+
+        }
+
+
+        /* =========================
+           CONTINUE SHOPPING
+        ========================= */
+
+        const continueButton =
+            document.getElementById(
+                "continueShopping"
+            );
+
+
+        const modal =
+            document.getElementById(
+                "cartModal"
+            );
+
+
+        if (continueButton) {
+
+            continueButton.addEventListener(
+                "click",
+                function () {
+
+                    if (modal) {
+
+                        modal.style.display =
+                            "none";
+
+                    }
+
+                }
+            );
+
+        }
+
+
     }
+);
+
+</script>
 
 
-    document.title = product.name + " | رایان تگ";
+
+    <!-- =========================
+     RELATED PRODUCTS
+========================= -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+        const productId =
+            params.get("id");
+
+        const products =
+            Array.isArray(window.PRODUCTS)
+                ? window.PRODUCTS
+                : [];
+
+        const currentProduct =
+            products.find(function (item) {
+
+                return String(item.id) ===
+                       String(productId);
+
+            });
+
+        const relatedContainer =
+            document.getElementById(
+                "relatedProducts"
+            );
 
 
-    const title =
-        document.getElementById("productTitle");
-
-    const category =
-        document.getElementById("productCategory");
-
-    const image =
-        document.getElementById("productImage");
-
-    const price =
-        document.getElementById("productPrice");
-
-    const description =
-        document.getElementById("productDescription");
-
-    const breadcrumb =
-        document.getElementById("breadcrumbProduct");
-
-    const specs =
-        document.getElementById("productSpecs");
+        if (
+            !relatedContainer ||
+            !currentProduct
+        ) {
+            return;
+        }
 
 
-    title.textContent =
-        product.name || "محصول رایان تگ";
+        const related =
+            products
+                .filter(function (item) {
+
+                    return (
+                        String(item.id) !==
+                        String(currentProduct.id)
+                    );
+
+                })
+                .slice(0, 4);
 
 
-    category.textContent =
-        product.category || "لوازم جانبی";
+        relatedContainer.innerHTML =
+            related.map(function (item) {
 
+                const price =
+                    Number(
+                        String(item.price || "")
+                            .replace(/[^\d]/g, "")
+                    ) || 0;
 
-    image.src =
-        product.image || "";
-
-
-    image.alt =
-        product.name || "محصول رایان تگ";
-
-
-    price.textContent =
-        Number(
-            String(product.price || "")
-            .replace(/[^\d]/g,"")
-        ).toLocaleString("fa-IR") + " تومان";
-
-
-    description.textContent =
-        product.description ||
-        "توضیحات این محصول به‌زودی تکمیل می‌شود.";
-
-
-    breadcrumb.textContent =
-        product.name || "محصول";
-
-
-    if(product.specs){
-
-        specs.innerHTML =
-            Object.entries(product.specs)
-            .map(function(item){
 
                 return `
-                    <div class="spec-row">
-                        <span class="spec-key">
-                            ${item[0]}
-                        </span>
 
-                        <span class="spec-value">
-                            ${item[1]}
-                        </span>
-                    </div>
+                    <article
+                        class="product-card"
+                    >
+
+                        <div class="product-card-image">
+
+                            <img
+                                src="${item.image || ""}"
+                                alt="${item.name || "محصول"}"
+                                loading="lazy"
+                            >
+
+                        </div>
+
+
+                        <div class="product-card-content">
+
+                            <span class="product-category">
+                                ${item.category || ""}
+                            </span>
+
+
+                            <h3>
+                                ${item.name || ""}
+                            </h3>
+
+
+                            <div class="product-price">
+
+                                ${price.toLocaleString("fa-IR")}
+
+                                <small>
+                                    تومان
+                                </small>
+
+                            </div>
+
+
+                            <a
+                                href="product.html?id=${item.id}"
+                                class="btn-product"
+                            >
+                                مشاهده محصول
+                            </a>
+
+                        </div>
+
+                    </article>
+
                 `;
 
             })
             .join("");
 
-    }else{
-
-        specs.innerHTML =
-            "<p>مشخصات محصول ثبت نشده است.</p>";
-
     }
 
-});
+);
 
 </script>
 
-    <script>
-document.addEventListener("DOMContentLoaded", function () {
 
-    let currentProduct = null;
-
-    const params = new URLSearchParams(window.location.search);
-    const productId = params.get("id");
-
-    const products =
-        Array.isArray(window.PRODUCTS)
-            ? window.PRODUCTS
-            : [];
-
-    currentProduct = products.find(function (item) {
-        return String(item.id) === String(productId);
-    });
-
-    if (!currentProduct) return;
-
-
-    const quantityInput =
-        document.getElementById("quantity");
-
-    const minus =
-        document.getElementById("minus");
-
-    const plus =
-        document.getElementById("plus");
-
-    const addButton =
-        document.getElementById("addToCartButton");
-
-
-    if (minus) {
-
-        minus.addEventListener("click", function () {
-
-            let quantity =
-                Number(quantityInput.value) || 1;
-
-            if (quantity > 1) {
-                quantity--;
-            }
-
-            quantityInput.value = quantity;
-
-        });
-
-    }
-
-
-    if (plus) {
-
-        plus.addEventListener("click", function () {
-
-            let quantity =
-                Number(quantityInput.value) || 1;
-
-            quantity++;
-
-            quantityInput.value = quantity;
-
-        });
-
-    }
-
-
-    if (addButton) {
-
-        addButton.addEventListener("click", function () {
-
-            let quantity =
-                Number(quantityInput.value) || 1;
-
-
-            let cart =
-                JSON.parse(
-                    localStorage.getItem("cart")
-                ) || [];
-
-
-            const existing =
-                cart.find(function (item) {
-
-                    return String(item.id) ===
-                           String(currentProduct.id);
-
-                });
-
-
-            if (existing) {
-
-                existing.quantity =
-                    (Number(existing.quantity) || 1)
-                    + quantity;
-
-            } else {
-
-                cart.push({
-
-                    id: currentProduct.id,
-
-                    name: currentProduct.name,
-
-                    price: currentProduct.price,
-
-                    image: currentProduct.image,
-
-                    quantity: quantity
-
-                });
-
-            }
-
-
-            localStorage.setItem(
-                "cart",
-                JSON.stringify(cart)
-            );
-
-
-            /* بروزرسانی شمارنده سبد */
-
-            const cartCount =
-                document.getElementById("cartCount");
-
-
-            if (cartCount) {
-
-                const total =
-                    cart.reduce(function (sum, item) {
-
-                        return sum +
-                            (Number(item.quantity) || 0);
-
-                    }, 0);
-
-
-                cartCount.textContent =
-                    total.toLocaleString("fa-IR");
-
-            }
-
-
-            addButton.textContent =
-                "✓ به سبد خرید اضافه شد";
-
-
-            addButton.style.background =
-                "#24966f";
-
-
-            setTimeout(function () {
-
-                addButton.textContent =
-                    "🛒 افزودن به سبد خرید";
-
-                addButton.style.background =
-                    "#111";
-
-            }, 1800);
-
-        });
-
-    }
-
-});
-</script>
+<!-- =========================
+     PAGE END
+========================= -->
 
 </body>
+
 </html>
+
+
+
+    
