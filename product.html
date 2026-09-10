@@ -1,577 +1,230 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>محصول | رایان تگ</title>
+<meta name="description" content="مشاهده مشخصات محصول در فروشگاه رایان تگ">
 
-<meta name="description"
-      content="مشاهده مشخصات و خرید محصول از فروشگاه رایان تگ">
+<link rel="icon" href="assets/favicons/favicon.png">
 
-<link rel="icon"
-      type="image/png"
-      href="assets/favicons/favicon.png">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/responsive.css">
 
-<link rel="stylesheet"
-      href="assets/css/style.css">
-
-<link rel="stylesheet"
-      href="assets/css/product.css">
-
-<link rel="stylesheet"
-      href="assets/css/responsive.css">
-
-<link rel="preconnect"
-      href="https://fonts.googleapis.com">
-
-<link rel="preconnect"
-      href="https://fonts.gstatic.com"
-      crossorigin>
-
-<link
-href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap"
-rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
-
-.product-page {
-    padding: 45px 0;
+.product-page{
+    padding:45px 0;
 }
 
-.product-page .container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 50px;
-    align-items: start;
+.product-layout{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:45px;
+    align-items:start;
 }
 
-.product-gallery {
-    position: relative;
+.product-image-box{
+    background:#fafafa;
+    border-radius:24px;
+    min-height:500px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:35px;
 }
 
-.main-image {
-    position: relative;
-    height: 520px;
-    border-radius: 25px;
-    background: #fafafa;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
+.product-image-box img{
+    width:100%;
+    height:430px;
+    object-fit:contain;
 }
 
-.main-image img {
-    width: 100%;
-    height: 100%;
-    padding: 35px;
-    object-fit: contain;
+.product-info{
+    padding:15px 0;
 }
 
-.sale-badge {
-    position: absolute;
-    top: 18px;
-    right: 18px;
-    z-index: 2;
-    padding: 7px 13px;
-    border-radius: 20px;
-    background: #111;
-    color: #fff;
-    font-size: 12px;
-    font-weight: 700;
+.product-category{
+    color:#409b8c;
+    font-weight:700;
+    font-size:14px;
+    margin-bottom:12px;
 }
 
-.product-info {
-    padding: 15px 0;
+.product-title{
+    font-size:30px;
+    line-height:1.8;
+    margin:0 0 15px;
 }
 
-.product-category {
-    display: inline-block;
-    margin-bottom: 12px;
-    color: #409b8c;
-    font-size: 14px;
-    font-weight: 700;
+.product-price{
+    color:#409b8c;
+    font-size:25px;
+    font-weight:900;
+    margin:20px 0;
 }
 
-.product-title {
-    margin: 0 0 18px;
-    font-size: 32px;
-    line-height: 1.7;
-    font-weight: 900;
+.product-description{
+    color:#666;
+    line-height:2.2;
+    margin:20px 0;
 }
 
-.product-price {
-    margin: 20px 0;
+.product-specs{
+    margin-top:30px;
 }
 
-#productPrice {
-    color: #409b8c;
-    font-size: 26px;
-    font-weight: 900;
+.spec-row{
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+    padding:13px 0;
+    border-bottom:1px solid #eee;
 }
 
-.stock-status {
-    margin-bottom: 20px;
-    color: #24966f;
-    font-weight: 700;
+.spec-key{
+    color:#777;
 }
 
-#productDescription {
-    color: #777;
-    font-size: 15px;
-    line-height: 2.1;
+.spec-value{
+    font-weight:700;
 }
 
-.product-option {
-    margin: 25px 0;
+.back-products{
+    display:inline-block;
+    margin-top:25px;
+    padding:13px 25px;
+    border-radius:12px;
+    background:#111;
+    color:#fff;
+    text-decoration:none;
 }
 
-.quantity-box {
-    display: flex;
-    align-items: center;
-    width: 145px;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    overflow: hidden;
+.product-error{
+    text-align:center;
+    padding:100px 20px;
 }
 
-.quantity-box button {
-    width: 42px;
-    height: 42px;
-    border: 0;
-    background: #f7f7f7;
-    cursor: pointer;
-    font-size: 20px;
-}
+@media(max-width:800px){
 
-.quantity-box input {
-    width: 60px;
-    height: 42px;
-    border: 0;
-    text-align: center;
-    font-family: inherit;
-}
-
-.product-actions {
-    margin-top: 25px;
-}
-
-#addToCartButton {
-    width: 100%;
-    min-height: 52px;
-    border: 0;
-    border-radius: 14px;
-    background: #111;
-    color: #fff;
-    font-family: inherit;
-    font-size: 15px;
-    font-weight: 800;
-    cursor: pointer;
-}
-
-#addToCartButton:hover {
-    background: #333;
-}
-
-.product-benefits {
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    gap: 12px;
-    margin-top: 25px;
-}
-
-.product-benefit {
-    padding: 15px;
-    border-radius: 15px;
-    background: #fafafa;
-    text-align: center;
-    font-size: 12px;
-}
-
-.product-specs {
-    margin-top: 35px;
-}
-
-.product-specs h2 {
-    margin-bottom: 15px;
-}
-
-.spec-row {
-    display: flex;
-    justify-content: space-between;
-    gap: 15px;
-    padding: 12px 0;
-    border-bottom: 1px solid #eee;
-}
-
-.spec-key {
-    color: #777;
-}
-
-.spec-value {
-    font-weight: 700;
-}
-
-.related-products {
-    padding: 50px 0;
-}
-
-#relatedProducts {
-    display: grid;
-    grid-template-columns: repeat(4,1fr);
-    gap: 20px;
-}
-
-.empty-product {
-    padding: 100px 20px;
-    text-align: center;
-}
-
-@media (max-width: 800px) {
-
-    .product-page .container {
-        grid-template-columns: 1fr;
-        gap: 25px;
+    .product-layout{
+        grid-template-columns:1fr;
+        gap:20px;
     }
 
-    .main-image {
-        height: 360px;
+    .product-image-box{
+        min-height:330px;
     }
 
-    .product-title {
-        font-size: 24px;
+    .product-image-box img{
+        height:300px;
     }
 
-    .product-benefits {
-        grid-template-columns: 1fr;
+    .product-title{
+        font-size:23px;
     }
-
-    #relatedProducts {
-        grid-template-columns: repeat(2,1fr);
-    }
-
 }
-
 </style>
-
 </head>
-
 
 <body>
 
-
-<!-- ================= HEADER ================= -->
-
 <header class="header">
-
 <div class="container">
 
-<a href="index.html"
-   class="logo">
-
-<img
-src="assets/logo/logo.webp"
-alt="رایان تگ">
+<a href="index.html" class="logo">
+<img src="assets/logo/logo.webp" alt="رایان تگ">
 
 <div>
-
 <h2>رایان تگ</h2>
-
 <span>Mobile & Accessories</span>
-
 </div>
-
 </a>
-
 
 <nav>
-
 <ul>
-
-<li>
-<a href="index.html">
-خانه
-</a>
-</li>
-
-<li>
-<a href="products.html">
-محصولات
-</a>
-</li>
-
-<li>
-<a href="about.html">
-درباره ما
-</a>
-</li>
-
-<li>
-<a href="contact.html">
-تماس با ما
-</a>
-</li>
-
-<li>
-<a href="terms.html">
-قوانین
-</a>
-</li>
-
+<li><a href="index.html">خانه</a></li>
+<li><a href="products.html">محصولات</a></li>
+<li><a href="about.html">درباره ما</a></li>
+<li><a href="contact.html">تماس با ما</a></li>
 </ul>
-
 </nav>
 
-
-<a href="cart.html"
-   class="cart-icon">
-
+<a href="cart.html" class="cart-icon">
 🛒
-
-<span id="cartCount">
-0
-</span>
-
+<span id="cartCount">0</span>
 </a>
 
-
 </div>
-
 </header>
 
 
-
-<!-- ================= BREADCRUMB ================= -->
-
 <section class="breadcrumb">
-
 <div class="container">
 
-<a href="index.html">
-خانه
-</a>
-
+<a href="index.html">خانه</a>
 <span>/</span>
-
-<a href="products.html">
-محصولات
-</a>
-
+<a href="products.html">محصولات</a>
 <span>/</span>
-
-<strong id="breadcrumbProduct">
-محصول
-</strong>
+<strong id="breadcrumbProduct">محصول</strong>
 
 </div>
-
 </section>
 
 
-
-<!-- ================= PRODUCT ================= -->
-
-<section class="product-page">
+<main class="product-page">
 
 <div class="container">
 
+<div id="productContainer">
 
-<!-- GALLERY -->
+<div class="product-layout">
 
-<div class="product-gallery">
-
-<div class="main-image">
-
-<span
-id="saleBadge"
-class="sale-badge"
-style="display:none;">
-ویژه
-</span>
-
-<img
-id="mainProductImage"
-src=""
-alt="محصول"
-loading="eager">
-
+<div class="product-image-box">
+<img id="productImage" src="" alt="">
 </div>
-
-</div>
-
-
-
-<!-- INFO -->
 
 <div class="product-info">
 
+<div id="productCategory" class="product-category">
+</div>
 
-<span
-id="productCategory"
-class="product-category">
-</span>
-
-
-<h1
-id="productTitle"
-class="product-title">
+<h1 id="productTitle" class="product-title">
 در حال بارگذاری...
 </h1>
 
+<div id="productPrice" class="product-price">
+</div>
 
-<div class="product-price">
+<div id="productDescription" class="product-description">
+</div>
 
-<span id="productPrice">
-</span>
+<div class="product-specs">
+
+<h2>مشخصات محصول</h2>
+
+<div id="productSpecs"></div>
 
 </div>
 
-
-<div
-id="stockStatus"
-class="stock-status">
-موجود در انبار
-</div>
-
-
-<p
-id="productDescription">
-</p>
-
-
-
-<!-- QUANTITY -->
-
-<div class="product-option">
-
-<h4>
-تعداد
-</h4>
-
-
-<div class="quantity-box">
-
-<button
-type="button"
-id="minus">
-−
-</button>
-
-
-<input
-id="quantity"
-type="number"
-value="1"
-min="1">
-
-
-<button
-type="button"
-id="plus">
-+
-</button>
+<a href="products.html" class="back-products">
+← بازگشت به محصولات
+</a>
 
 </div>
 
 </div>
 
-
-
-<!-- ADD CART -->
-
-<div class="product-actions">
-
-<button
-type="button"
-id="addToCartButton"
-class="btn add-cart">
-
-🛒 افزودن به سبد خرید
-
-</button>
-
-</div>
-
-
-
-<!-- BENEFITS -->
-
-<div class="product-benefits">
-
-<div class="product-benefit">
-🚚 ارسال سریع
-</div>
-
-<div class="product-benefit">
-🛡 ضمانت اصالت
-</div>
-
-<div class="product-benefit">
-🎧 پشتیبانی
 </div>
 
 </div>
 
+</main>
 
-</div>
-
-</div>
-
-</section>
-
-
-
-<!-- ================= SPECS ================= -->
-
-<section class="product-specs">
-
-<div class="container">
-
-<h2>
-مشخصات محصول
-</h2>
-
-<div id="productSpecs">
-
-</div>
-
-</div>
-
-</section>
-
-
-
-<!-- ================= RELATED ================= -->
-
-<section class="related-products">
-
-<div class="container">
-
-<div class="section-header">
-
-<h2>
-محصولات مرتبط
-</h2>
-
-</div>
-
-
-<div
-id="relatedProducts">
-</div>
-
-
-</div>
-
-</section>
-
-
-
-<!-- ================= FOOTER ================= -->
 
 <footer class="footer">
 
@@ -579,84 +232,35 @@ id="relatedProducts">
 
 <div class="footer-grid">
 
-
 <div>
-
-<h3>
-رایان تگ
-</h3>
-
+<h3>رایان تگ</h3>
 <p>
-فروشگاه تخصصی لوازم جانبی موبایل،
-قاب، گلس و محافظ لنز.
+فروشگاه تخصصی لوازم جانبی موبایل، قاب، گلس و محافظ لنز.
 </p>
-
 </div>
 
-
 <div>
-
-<h4>
-دسترسی سریع
-</h4>
+<h4>دسترسی سریع</h4>
 
 <ul>
-
-<li>
-<a href="index.html">
-خانه
-</a>
-</li>
-
-<li>
-<a href="products.html">
-محصولات
-</a>
-</li>
-
-<li>
-<a href="about.html">
-درباره ما
-</a>
-</li>
-
-<li>
-<a href="contact.html">
-تماس با ما
-</a>
-</li>
-
+<li><a href="index.html">خانه</a></li>
+<li><a href="products.html">محصولات</a></li>
+<li><a href="about.html">درباره ما</a></li>
+<li><a href="contact.html">تماس با ما</a></li>
 </ul>
 
 </div>
 
-
 <div>
-
-<h4>
-اطلاعات فروشگاه
-</h4>
-
-<p>
-اصفهان
-</p>
-
-<p>
-rayantag.ir
-</p>
-
+<h4>اطلاعات فروشگاه</h4>
+<p>اصفهان</p>
+<p>rayantag.ir</p>
 </div>
 
-
 </div>
-
 
 <div class="footer-bottom">
-
-<p>
-© 2026 رایان تگ | تمامی حقوق محفوظ است.
-</p>
-
+<p>© 2026 رایان تگ | تمامی حقوق محفوظ است.</p>
 </div>
 
 </div>
@@ -664,57 +268,132 @@ rayantag.ir
 </footer>
 
 
-
-<!-- ================= CART MODAL ================= -->
-
-<div
-id="cartModal"
-class="cart-modal">
-
-<div class="cart-modal-box">
-
-<div class="success-icon">
-✅
-</div>
-
-<h2>
-محصول به سبد خرید اضافه شد
-</h2>
-
-<p id="modalProductName">
-</p>
-
-<div class="cart-modal-buttons">
-
-<a
-href="cart.html"
-class="btn">
-مشاهده سبد خرید
-</a>
-
-<button
-id="continueShopping"
-class="btn btn-outline">
-ادامه خرید
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-
-
-<!-- ================= JS ================= -->
-
+<!-- اول محصولات -->
 <script src="assets/js/products.js"></script>
 
-<script src="assets/js/app.js"></script>
+<!-- سپس کد داینامیک صفحه محصول -->
+<script>
 
-<script src="assets/js/product.js"></script>
+document.addEventListener("DOMContentLoaded", function(){
 
+    const params = new URLSearchParams(window.location.search);
+
+    const id = params.get("id");
+
+    const products = Array.isArray(window.PRODUCTS)
+        ? window.PRODUCTS
+        : (typeof PRODUCTS !== "undefined" ? PRODUCTS : []);
+
+    const product = products.find(function(item){
+        return String(item.id) === String(id);
+    });
+
+    const container = document.getElementById("productContainer");
+
+    if(!product){
+
+        container.innerHTML = `
+            <div class="product-error">
+                <h2>محصول پیدا نشد</h2>
+                <p>شناسه محصول در آدرس صفحه وجود ندارد.</p>
+                <a href="products.html" class="back-products">
+                    مشاهده همه محصولات
+                </a>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    document.title = product.name + " | رایان تگ";
+
+
+    const title =
+        document.getElementById("productTitle");
+
+    const category =
+        document.getElementById("productCategory");
+
+    const image =
+        document.getElementById("productImage");
+
+    const price =
+        document.getElementById("productPrice");
+
+    const description =
+        document.getElementById("productDescription");
+
+    const breadcrumb =
+        document.getElementById("breadcrumbProduct");
+
+    const specs =
+        document.getElementById("productSpecs");
+
+
+    title.textContent =
+        product.name || "محصول رایان تگ";
+
+
+    category.textContent =
+        product.category || "لوازم جانبی";
+
+
+    image.src =
+        product.image || "";
+
+
+    image.alt =
+        product.name || "محصول رایان تگ";
+
+
+    price.textContent =
+        Number(
+            String(product.price || "")
+            .replace(/[^\d]/g,"")
+        ).toLocaleString("fa-IR") + " تومان";
+
+
+    description.textContent =
+        product.description ||
+        "توضیحات این محصول به‌زودی تکمیل می‌شود.";
+
+
+    breadcrumb.textContent =
+        product.name || "محصول";
+
+
+    if(product.specs){
+
+        specs.innerHTML =
+            Object.entries(product.specs)
+            .map(function(item){
+
+                return `
+                    <div class="spec-row">
+                        <span class="spec-key">
+                            ${item[0]}
+                        </span>
+
+                        <span class="spec-value">
+                            ${item[1]}
+                        </span>
+                    </div>
+                `;
+
+            })
+            .join("");
+
+    }else{
+
+        specs.innerHTML =
+            "<p>مشخصات محصول ثبت نشده است.</p>";
+
+    }
+
+});
+
+</script>
 
 </body>
-
 </html>
