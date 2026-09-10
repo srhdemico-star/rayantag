@@ -127,6 +127,75 @@
     .product-title{
         font-size:23px;
     }
+
+    .product-buy-box{
+    margin-top:25px;
+    display:flex;
+    gap:12px;
+    align-items:center;
+}
+
+.quantity-control{
+    display:flex;
+    align-items:center;
+    border:1px solid #ddd;
+    border-radius:12px;
+    overflow:hidden;
+    height:52px;
+}
+
+.quantity-control button{
+    width:42px;
+    height:52px;
+    border:0;
+    background:#f5f5f5;
+    font-size:22px;
+    cursor:pointer;
+}
+
+.quantity-control input{
+    width:50px;
+    height:52px;
+    border:0;
+    text-align:center;
+    font-family:inherit;
+    font-size:16px;
+    font-weight:700;
+}
+
+.add-to-cart-btn{
+    flex:1;
+    height:52px;
+    border:0;
+    border-radius:12px;
+    background:#111;
+    color:#fff;
+    font-family:inherit;
+    font-size:15px;
+    font-weight:800;
+    cursor:pointer;
+}
+
+.add-to-cart-btn:hover{
+    background:#333;
+}
+
+@media(max-width:600px){
+
+    .product-buy-box{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .quantity-control{
+        width:100%;
+        justify-content:center;
+    }
+
+    .add-to-cart-btn{
+        width:100%;
+    }
+
 }
 </style>
 </head>
@@ -418,6 +487,175 @@ document.addEventListener("DOMContentLoaded", function(){
 
 });
 
+</script>
+
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    let currentProduct = null;
+
+    const params = new URLSearchParams(window.location.search);
+    const productId = params.get("id");
+
+    const products =
+        Array.isArray(window.PRODUCTS)
+            ? window.PRODUCTS
+            : [];
+
+    currentProduct = products.find(function (item) {
+        return String(item.id) === String(productId);
+    });
+
+    if (!currentProduct) return;
+
+
+    const quantityInput =
+        document.getElementById("quantity");
+
+    const minus =
+        document.getElementById("minus");
+
+    const plus =
+        document.getElementById("plus");
+
+    const addButton =
+        document.getElementById("addToCartButton");
+
+
+    if (minus) {
+
+        minus.addEventListener("click", function () {
+
+            let quantity =
+                Number(quantityInput.value) || 1;
+
+            if (quantity > 1) {
+                quantity--;
+            }
+
+            quantityInput.value = quantity;
+
+        });
+
+    }
+
+
+    if (plus) {
+
+        plus.addEventListener("click", function () {
+
+            let quantity =
+                Number(quantityInput.value) || 1;
+
+            quantity++;
+
+            quantityInput.value = quantity;
+
+        });
+
+    }
+
+
+    if (addButton) {
+
+        addButton.addEventListener("click", function () {
+
+            let quantity =
+                Number(quantityInput.value) || 1;
+
+
+            let cart =
+                JSON.parse(
+                    localStorage.getItem("cart")
+                ) || [];
+
+
+            const existing =
+                cart.find(function (item) {
+
+                    return String(item.id) ===
+                           String(currentProduct.id);
+
+                });
+
+
+            if (existing) {
+
+                existing.quantity =
+                    (Number(existing.quantity) || 1)
+                    + quantity;
+
+            } else {
+
+                cart.push({
+
+                    id: currentProduct.id,
+
+                    name: currentProduct.name,
+
+                    price: currentProduct.price,
+
+                    image: currentProduct.image,
+
+                    quantity: quantity
+
+                });
+
+            }
+
+
+            localStorage.setItem(
+                "cart",
+                JSON.stringify(cart)
+            );
+
+
+            /* بروزرسانی شمارنده سبد */
+
+            const cartCount =
+                document.getElementById("cartCount");
+
+
+            if (cartCount) {
+
+                const total =
+                    cart.reduce(function (sum, item) {
+
+                        return sum +
+                            (Number(item.quantity) || 0);
+
+                    }, 0);
+
+
+                cartCount.textContent =
+                    total.toLocaleString("fa-IR");
+
+            }
+
+
+            addButton.textContent =
+                "✓ به سبد خرید اضافه شد";
+
+
+            addButton.style.background =
+                "#24966f";
+
+
+            setTimeout(function () {
+
+                addButton.textContent =
+                    "🛒 افزودن به سبد خرید";
+
+                addButton.style.background =
+                    "#111";
+
+            }, 1800);
+
+        });
+
+    }
+
+});
 </script>
 
 </body>
