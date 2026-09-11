@@ -8,27 +8,88 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>محصولات | رایان تگ</title>
+    <meta http-equiv="X-UA-Compatible"
+          content="IE=edge">
 
-    <meta name="description"
-          content="مشاهده و خرید محصولات رایان تگ؛ انواع قاب گوشی، قاب مگ سیف، گلس و محافظ لنز.">
 
-    <link rel="icon"
-          type="image/png"
-          href="assets/favicons/favicon.png">
+    <title>
+        محصولات | رایان تگ
+    </title>
 
-    <link rel="stylesheet"
-          href="assets/css/style.css">
 
-    <link rel="preconnect"
-          href="https://fonts.googleapis.com">
+    <meta
+        name="description"
+        content="مشاهده و خرید قاب گوشی، گلس، محافظ لنز و لوازم جانبی موبایل از فروشگاه رایان تگ."
+    >
 
-    <link rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap"
-          rel="stylesheet">
+    <meta
+        name="keywords"
+        content="رایان تگ، قاب گوشی، قاب مگ سیف، گلس گوشی، گلس پرایوسی، محافظ لنز"
+    >
+
+
+    <meta
+        name="author"
+        content="Rayantag"
+    >
+
+
+    <meta
+        name="theme-color"
+        content="#19b394"
+    >
+
+
+    <link
+        rel="canonical"
+        href="https://rayantag.ir/products.html"
+    >
+
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="assets/favicons/favicon.png"
+    >
+
+
+    <link
+        rel="apple-touch-icon"
+        href="assets/favicons/apple-touch-icon.png"
+    >
+
+
+    <!-- GOOGLE FONT -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- MAIN CSS -->
+
+    <link
+        rel="stylesheet"
+        href="assets/css/style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="assets/css/responsive.css"
+    >
 
 
     <style>
@@ -41,13 +102,10 @@
             box-sizing: border-box;
         }
 
+
         body {
             margin: 0;
             font-family: "Vazirmatn", sans-serif;
-        }
-
-        .products-page {
-            padding-bottom: 60px;
         }
 
 
@@ -60,6 +118,7 @@
             z-index: 100;
         }
 
+
         .header .container {
             display: flex;
             align-items: center;
@@ -67,13 +126,15 @@
             gap: 25px;
         }
 
+
         .logo {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 9px;
             text-decoration: none;
             white-space: nowrap;
         }
+
 
         .logo img {
             width: 42px;
@@ -81,14 +142,29 @@
             object-fit: contain;
         }
 
+
         .logo h1 {
             margin: 0;
             font-size: 21px;
             font-weight: 800;
         }
 
+
         .logo h1 span {
             font-weight: 500;
+        }
+
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+
+        .cart-icon {
+            position: relative;
+            text-decoration: none;
         }
 
 
@@ -96,21 +172,28 @@
            PAGE TITLE
         ===================================== */
 
+        .products-page {
+            padding-bottom: 60px;
+        }
+
+
         .page-title {
-            padding: 70px 20px 45px;
+            padding: 65px 20px 40px;
             text-align: center;
         }
 
+
         .page-title h1 {
-            margin: 0 0 14px;
-            font-size: 42px;
+            margin: 0 0 12px;
+            font-size: 40px;
             font-weight: 900;
         }
+
 
         .page-title p {
             margin: 0;
             color: #777;
-            font-size: 17px;
+            font-size: 16px;
             line-height: 2;
         }
 
@@ -123,6 +206,7 @@
             padding: 10px 20px 35px;
         }
 
+
         .products-toolbar .container {
             display: flex;
             align-items: center;
@@ -130,10 +214,12 @@
             max-width: 1100px;
         }
 
+
         .search-box {
             position: relative;
             flex: 1;
         }
+
 
         .search-box i {
             position: absolute;
@@ -143,6 +229,7 @@
             color: #888;
             pointer-events: none;
         }
+
 
         #searchInput {
             width: 100%;
@@ -156,9 +243,11 @@
             background: #fff;
         }
 
+
         #searchInput:focus {
-            border-color: #4da89a;
+            border-color: #19b394;
         }
+
 
         #categoryFilter,
         #sortProducts {
@@ -182,14 +271,17 @@
             padding: 10px 20px 60px;
         }
 
+
         .products-section .container {
             max-width: 1200px;
             margin: auto;
         }
 
+
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
             gap: 22px;
         }
 
@@ -208,32 +300,35 @@
             border: 1px solid #e8e8e8;
             border-radius: 22px;
             background: #fff;
-            transition: transform .25s ease,
-                        box-shadow .25s ease;
+            transition:
+                transform .25s ease,
+                box-shadow .25s ease;
         }
+
 
         .product-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 12px 35px rgba(0,0,0,.08);
+            box-shadow:
+                0 12px 35px rgba(0,0,0,.08);
         }
 
 
-        /* IMAGE */
+        /* =====================================
+           PRODUCT IMAGE
+        ===================================== */
 
-        .product-image {
-            position: relative;
+        .product-card > a {
+            display: block;
             width: 100%;
             height: 250px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             margin-bottom: 14px;
             border-radius: 17px;
             background: #fafafa;
             overflow: hidden;
         }
 
-        .product-image img {
+
+        .product-card > a img {
             display: block;
             width: 100%;
             height: 100%;
@@ -242,13 +337,15 @@
         }
 
 
-        /* FEATURED */
+        /* =====================================
+           FEATURED BADGE
+        ===================================== */
 
-        .featured-badge {
+        .product-badge {
             position: absolute;
             top: 12px;
             right: 12px;
-            z-index: 2;
+            z-index: 3;
             padding: 5px 10px;
             border-radius: 20px;
             background: #111;
@@ -258,32 +355,44 @@
         }
 
 
-        /* WISHLIST */
+        /* =====================================
+           WISHLIST
+        ===================================== */
 
-        .wishlist-btn {
+        .wishlist {
             position: absolute;
             top: 12px;
             left: 12px;
-            z-index: 3;
+            z-index: 4;
+
             width: 38px;
             height: 38px;
+
             display: flex;
             align-items: center;
             justify-content: center;
+
             border: 0;
             border-radius: 50%;
+
             background: rgba(255,255,255,.95);
-            color: #555;
+            color: #222;
+
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,.08);
+
+            box-shadow:
+                0 5px 15px rgba(0,0,0,.08);
         }
 
-        .wishlist-btn:hover {
+
+        .wishlist:hover {
             color: #e74c3c;
         }
 
 
-        /* PRODUCT TEXT */
+        /* =====================================
+           PRODUCT INFO
+        ===================================== */
 
         .product-card .product-info {
             display: flex;
@@ -291,15 +400,8 @@
             flex: 1;
         }
 
-        .product-card .product-category {
-            margin-bottom: 6px;
-            color: #4da89a;
-            font-size: 12px;
-            font-weight: 600;
-        }
 
-        .product-card h3,
-        .product-card .product-name {
+        .product-card h3 {
             margin: 0 0 8px;
             color: #171717;
             font-size: 17px;
@@ -307,8 +409,8 @@
             font-weight: 800;
         }
 
-        .product-card p,
-        .product-card .product-description {
+
+        .product-card p {
             margin: 0 0 14px;
             color: #777;
             font-size: 13px;
@@ -316,53 +418,50 @@
         }
 
 
-        /* PRICE */
+        /* =====================================
+           PRICE
+        ===================================== */
 
         .product-price {
             margin-top: auto;
             margin-bottom: 14px;
-            color: #429b8c;
-            font-size: 20px;
+            color: #12937b;
+            font-size: 19px;
             font-weight: 900;
         }
 
 
-        /* ACTIONS */
+        /* =====================================
+           PRODUCT BUTTON
+        ===================================== */
 
-        .product-actions {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-        }
-
-        .product-actions a,
-        .product-actions button {
+        .btn-product {
             min-height: 42px;
-            border-radius: 12px;
-            font-family: inherit;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            text-decoration: none;
-        }
 
-        .product-actions .view-product {
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid #ddd;
-            background: #fff;
-            color: #222;
-        }
 
-        .product-actions .add-cart {
-            border: 0;
+            border-radius: 12px;
+
             background: #111;
             color: #fff;
+
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 700;
+
+            text-decoration: none;
+
+            transition:
+                background .2s ease,
+                transform .2s ease;
         }
 
-        .product-actions .add-cart:hover {
-            background: #333;
+
+        .btn-product:hover {
+            background: #19b394;
+            transform: translateY(-1px);
         }
 
 
@@ -376,24 +475,17 @@
             color: #777;
         }
 
+
         .empty-products i {
             margin-bottom: 15px;
             font-size: 45px;
             color: #aaa;
         }
 
+
         .empty-products h3 {
             margin: 0 0 8px;
             color: #222;
-        }
-
-
-        /* =====================================
-           FOOTER
-        ===================================== */
-
-        .footer {
-            margin-top: 30px;
         }
 
 
@@ -404,16 +496,20 @@
         @media (max-width: 900px) {
 
             .product-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
             }
+
 
             .products-toolbar .container {
                 flex-wrap: wrap;
             }
 
+
             .search-box {
                 flex-basis: 100%;
             }
+
 
             #categoryFilter,
             #sortProducts {
@@ -426,34 +522,25 @@
 
         @media (max-width: 600px) {
 
-            .header .container {
-                padding: 12px 18px;
-            }
-
-            .logo img {
-                width: 36px;
-                height: 36px;
-            }
-
-            .logo h1 {
-                font-size: 18px;
-            }
-
             .page-title {
                 padding: 45px 18px 30px;
             }
+
 
             .page-title h1 {
                 font-size: 30px;
             }
 
+
             .page-title p {
                 font-size: 14px;
             }
 
+
             .products-toolbar {
                 padding: 5px 15px 25px;
             }
+
 
             .products-toolbar .container {
                 display: grid;
@@ -461,9 +548,11 @@
                 gap: 9px;
             }
 
+
             .search-box {
                 grid-column: 1 / -1;
             }
+
 
             #categoryFilter,
             #sortProducts {
@@ -472,35 +561,43 @@
                 font-size: 12px;
             }
 
+
             #searchInput {
                 height: 44px;
             }
+
 
             .products-section {
                 padding: 5px 15px 40px;
             }
 
+
             .product-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
                 gap: 12px;
             }
+
 
             .product-card {
                 padding: 9px;
                 border-radius: 17px;
             }
 
-            .product-image {
+
+            .product-card > a {
                 height: 165px;
                 margin-bottom: 10px;
                 border-radius: 13px;
             }
 
-            .product-image img {
+
+            .product-card > a img {
                 padding: 10px;
             }
 
-            .wishlist-btn {
+
+            .wishlist {
                 width: 31px;
                 height: 31px;
                 top: 8px;
@@ -508,38 +605,35 @@
                 font-size: 12px;
             }
 
-            .featured-badge {
+
+            .product-badge {
                 top: 8px;
                 right: 8px;
                 padding: 4px 7px;
                 font-size: 9px;
             }
 
-            .product-card h3,
-            .product-card .product-name {
+
+            .product-card h3 {
                 font-size: 13px;
                 line-height: 1.7;
             }
 
-            .product-card p,
-            .product-card .product-description {
+
+            .product-card p {
                 font-size: 11px;
                 line-height: 1.7;
                 margin-bottom: 8px;
             }
+
 
             .product-price {
                 font-size: 15px;
                 margin-bottom: 9px;
             }
 
-            .product-actions {
-                grid-template-columns: 1fr;
-                gap: 6px;
-            }
 
-            .product-actions a,
-            .product-actions button {
+            .btn-product {
                 min-height: 36px;
                 font-size: 11px;
             }
@@ -555,7 +649,7 @@
 
 
 <!-- =====================================
-HEADER
+     HEADER
 ===================================== -->
 
 <header class="header">
@@ -563,12 +657,17 @@ HEADER
     <div class="container">
 
 
-        <a href="index.html"
-           class="logo">
+        <a
+            href="index.html"
+            class="logo"
+            aria-label="صفحه اصلی رایان تگ"
+        >
 
             <img
                 src="assets/logo/logo.webp"
-                alt="رایان تگ">
+                alt="رایان تگ"
+            >
+
 
             <h1>
                 رایان <span>تگ</span>
@@ -577,7 +676,7 @@ HEADER
         </a>
 
 
-        <nav>
+        <nav aria-label="منوی اصلی">
 
             <ul>
 
@@ -587,12 +686,16 @@ HEADER
                     </a>
                 </li>
 
+
                 <li>
-                    <a class="active"
-                       href="products.html">
+                    <a
+                        class="active"
+                        href="products.html"
+                    >
                         محصولات
                     </a>
                 </li>
+
 
                 <li>
                     <a href="about.html">
@@ -600,15 +703,17 @@ HEADER
                     </a>
                 </li>
 
+
                 <li>
                     <a href="contact.html">
                         تماس با ما
                     </a>
                 </li>
 
+
                 <li>
-                    <a href="terms.html">
-                        قوانین
+                    <a href="faq.html">
+                        سوالات متداول
                     </a>
                 </li>
 
@@ -619,9 +724,21 @@ HEADER
 
         <div class="header-actions">
 
-            <a href="cart.html"
-               class="cart-icon"
-               aria-label="سبد خرید">
+            <a
+                href="https://wa.me/989137380651"
+                target="_blank"
+                rel="noopener"
+                aria-label="واتساپ"
+            >
+                <i class="fa-brands fa-whatsapp"></i>
+            </a>
+
+
+            <a
+                href="cart.html"
+                class="cart-icon"
+                aria-label="سبد خرید"
+            >
 
                 <i class="fa-solid fa-cart-shopping"></i>
 
@@ -637,7 +754,8 @@ HEADER
         <button
             class="menu-btn"
             type="button"
-            aria-label="منو">
+            aria-label="باز کردن منو"
+        >
 
             <i class="fa-solid fa-bars"></i>
 
@@ -650,7 +768,7 @@ HEADER
 
 
 <!-- =====================================
-MOBILE MENU
+     MOBILE MENU
 ===================================== -->
 
 <div class="mobile-menu">
@@ -663,11 +781,13 @@ MOBILE MENU
             </a>
         </li>
 
+
         <li>
             <a href="products.html">
                 محصولات
             </a>
         </li>
+
 
         <li>
             <a href="about.html">
@@ -675,15 +795,17 @@ MOBILE MENU
             </a>
         </li>
 
+
         <li>
             <a href="contact.html">
                 تماس با ما
             </a>
         </li>
 
+
         <li>
-            <a href="terms.html">
-                قوانین و مقررات
+            <a href="faq.html">
+                سوالات متداول
             </a>
         </li>
 
@@ -692,27 +814,32 @@ MOBILE MENU
 </div>
 
 
-
-<!-- =====================================
-MAIN
+    <!-- =====================================
+     MAIN
 ===================================== -->
 
 <main class="products-page">
 
 
-    <!-- PAGE TITLE -->
+    <!-- =================================
+         PAGE TITLE
+    ================================== -->
 
     <section class="page-title">
 
         <div class="container">
 
+            <span class="section-label">
+                فروشگاه رایان تگ
+            </span>
+
             <h1>
-                همه محصولات
+                محصولات
             </h1>
 
             <p>
-                قاب گوشی، قاب مگ سیف، گلس تمام صفحه،
-                گلس حریم خصوصی و محافظ لنز
+                قاب، گلس و محافظ لنز با کیفیت مناسب
+                برای محافظت بهتر از گوشی شما
             </p>
 
         </div>
@@ -721,26 +848,39 @@ MAIN
 
 
 
-    <!-- TOOLBAR -->
+    <!-- =================================
+         PRODUCTS TOOLBAR
+    ================================== -->
 
     <section class="products-toolbar">
 
         <div class="container">
 
 
+            <!-- SEARCH -->
+
             <div class="search-box">
 
                 <i class="fa-solid fa-magnifying-glass"></i>
 
                 <input
-                    type="text"
+                    type="search"
                     id="searchInput"
-                    placeholder="جستجوی محصول...">
+                    placeholder="جستجوی محصول..."
+                    aria-label="جستجوی محصول"
+                    autocomplete="off"
+                >
 
             </div>
 
 
-            <select id="categoryFilter">
+
+            <!-- CATEGORY -->
+
+            <select
+                id="categoryFilter"
+                aria-label="فیلتر دسته‌بندی"
+            >
 
                 <option value="all">
                     همه دسته‌بندی‌ها
@@ -751,11 +891,11 @@ MAIN
                 </option>
 
                 <option value="magsafe-case">
-                    قاب مگ سیف
+                    قاب مگ‌سیف
                 </option>
 
                 <option value="full-glass">
-                    گلس تمام صفحه
+                    گلس تمام‌صفحه
                 </option>
 
                 <option value="privacy-glass">
@@ -769,7 +909,13 @@ MAIN
             </select>
 
 
-            <select id="sortProducts">
+
+            <!-- SORT -->
+
+            <select
+                id="sortProducts"
+                aria-label="مرتب‌سازی محصولات"
+            >
 
                 <option value="default">
                     مرتب‌سازی
@@ -796,23 +942,33 @@ MAIN
 
 
 
-    <!-- PRODUCTS -->
+    <!-- =================================
+         PRODUCTS
+    ================================== -->
 
     <section class="products-section">
 
         <div class="container">
 
 
+            <!-- PRODUCTS CONTAINER -->
+
             <div
                 id="productsContainer"
-                class="product-grid">
+                class="product-grid"
+                aria-live="polite"
+            >
             </div>
 
+
+
+            <!-- EMPTY PRODUCTS -->
 
             <div
                 id="noProducts"
                 class="empty-products"
-                style="display:none;">
+                style="display:none;"
+            >
 
                 <i class="fa-solid fa-box-open"></i>
 
@@ -835,23 +991,43 @@ MAIN
 </main>
 
 
-
-<!-- =====================================
-FOOTER
+    <!-- =====================================
+     FOOTER
 ===================================== -->
 
 <footer class="footer">
 
     <div class="container">
 
+
         <div class="footer-grid">
 
 
-            <div>
+            <!-- ABOUT -->
 
-                <h3>
-                    رایان تگ
-                </h3>
+            <div class="footer-column">
+
+                <div class="footer-brand">
+
+                    <img
+                        src="assets/logo/logo.webp"
+                        alt="رایان تگ"
+                    >
+
+                    <div>
+
+                        <h3>
+                            رایان تگ
+                        </h3>
+
+                        <span>
+                            Case &amp; Screen Protection
+                        </span>
+
+                    </div>
+
+                </div>
+
 
                 <p>
                     فروشگاه تخصصی لوازم جانبی موبایل،
@@ -861,11 +1037,15 @@ FOOTER
             </div>
 
 
-            <div>
+
+            <!-- QUICK LINKS -->
+
+            <div class="footer-column">
 
                 <h4>
                     دسترسی سریع
                 </h4>
+
 
                 <ul>
 
@@ -894,8 +1074,8 @@ FOOTER
                     </li>
 
                     <li>
-                        <a href="terms.html">
-                            قوانین
+                        <a href="faq.html">
+                            سوالات متداول
                         </a>
                     </li>
 
@@ -904,19 +1084,97 @@ FOOTER
             </div>
 
 
-            <div>
+
+            <!-- CUSTOMER -->
+
+            <div class="footer-column">
 
                 <h4>
-                    اطلاعات فروشگاه
+                    راهنمای مشتری
                 </h4>
 
-                <p>
-                    اصفهان
-                </p>
 
-                <p>
-                    rayantag.ir
-                </p>
+                <ul>
+
+                    <li>
+                        <a href="shipping.html">
+                            شیوه ارسال
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="returns.html">
+                            شرایط مرجوعی
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="terms.html">
+                            قوانین و مقررات
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="privacy.html">
+                            حریم خصوصی
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+
+            <!-- CONTACT -->
+
+            <div class="footer-column">
+
+                <h4>
+                    اطلاعات تماس
+                </h4>
+
+
+                <ul class="footer-contact">
+
+                    <li>
+                        📍
+                        <span>
+                            اصفهان، خیابان شریف، خیابان سعدی
+                        </span>
+                    </li>
+
+
+                    <li>
+                        📞
+
+                        <a href="tel:09137380651">
+                            09137380651
+                        </a>
+
+                    </li>
+
+
+                    <li>
+                        💬
+
+                        <a
+                            href="https://wa.me/989137380651"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            واتساپ
+                        </a>
+
+                    </li>
+
+
+                    <li>
+                        📦
+                        ارسال با پست و پیک
+                    </li>
+
+                </ul>
 
             </div>
 
@@ -924,13 +1182,48 @@ FOOTER
         </div>
 
 
+
+        <!-- ENAMAD -->
+
+        <div class="footer-trust">
+
+            <a
+                referrerpolicy="origin"
+                target="_blank"
+                rel="noopener"
+                href="https://trustseal.enamad.ir/?id=774605&Code=gkwrT6l8UGysF2wvPLm1kCikeP0znlSZ"
+            >
+
+                <img
+                    referrerpolicy="origin"
+                    src="https://trustseal.enamad.ir/logo.aspx?id=774605&Code=gkwrT6l8UGysF2wvPLm1kCikeP0znlSZ"
+                    alt="نماد اعتماد الکترونیکی"
+                    style="cursor:pointer"
+                >
+
+            </a>
+
+        </div>
+
+
+
+        <hr>
+
+
+
         <div class="footer-bottom">
 
             <p>
-                © 2026 رایان تگ | تمامی حقوق محفوظ است.
+                © 2026 رایان تگ
+                | تمامی حقوق این وب‌سایت محفوظ است.
+            </p>
+
+            <p>
+                Rayantag.ir
             </p>
 
         </div>
+
 
     </div>
 
@@ -939,7 +1232,7 @@ FOOTER
 
 
 <!-- =====================================
-JAVASCRIPT
+     JAVASCRIPT
 ===================================== -->
 
 <script src="assets/js/products.js"></script>
@@ -952,3 +1245,5 @@ JAVASCRIPT
 </body>
 
 </html>
+
+
