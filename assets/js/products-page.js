@@ -1,176 +1,260 @@
 "use strict";
-/* ========================================== RAYANTAG.IR PRODUCTS PAGE ========================================== */
-/* ========================================== ELEMENTS ========================================== */
-const productsContainer = document.getElementById("productsContainer");
-const searchInput = document.getElementById("searchInput");
-const categoryFilter = document.getElementById("categoryFilter");
-const sortProducts = document.getElementById("sortProducts");
-const noProducts = document.getElementById("noProducts");
-/* ========================================== SAFETY CHECK ========================================== */
-const allProducts = typeof PRODUCTS !== "undefined" ? PRODUCTS : [];
-/* ========================================== CREATE PRODUCT CARD ========================================== */
+
+/* ==========================================
+   RAYANTAG.IR
+   PRODUCTS PAGE
+========================================== */
+
+
+/* ==========================================
+   ELEMENTS
+========================================== */
+
+let productsContainer;
+let searchInput;
+let categoryFilter;
+let sortProducts;
+let noProducts;
+
+
+/* ==========================================
+   PRODUCTS DATA
+========================================== */
+
+const allProducts =
+    typeof PRODUCTS !== "undefined" &&
+    Array.isArray(PRODUCTS)
+        ? PRODUCTS
+        : [];
+
+
+/* ==========================================
+   INITIALIZE ELEMENTS
+========================================== */
+
+function initProductsPage() {
+
+    productsContainer =
+        document.getElementById("productsContainer");
+
+    searchInput =
+        document.getElementById("searchInput");
+
+    categoryFilter =
+        document.getElementById("categoryFilter");
+
+    sortProducts =
+        document.getElementById("sortProducts");
+
+    noProducts =
+        document.getElementById("noProducts");
+
+}
+
+
+/* ==========================================
+   PRICE TO NUMBER
+========================================== */
+
+function getProductPrice(product) {
+
+    return Number(
+        String(product?.price || "")
+            .replace(/[^\d]/g, "")
+    ) || 0;
+
+}
+
+
+/* ==========================================
+   CREATE PRODUCT CARD
+========================================== */
+
 function createCard(product) {
-const featuredBadge =
-    product.featured === true
-        ? `
-            <span class="product-badge">
-                ویژه
-            </span>
-          `
-        : "";
+
+    if (!product) {
+        return "";
+    }
 
 
-return `
-
-    <div class="product-card">
-
-
-        ${featuredBadge}
-
-
-        <!-- FAVORITE -->
-
-        <button
-            class="wishlist"
-            type="button"
-            aria-label="افزودن به علاقه‌مندی‌ها">
-
-            <i class="fa-regular fa-heart"></i>
-
-        </button>
-
-
-        <!-- PRODUCT IMAGE -->
-
-        <img
-            src="${product.image}"
-            alt="${product.name}"
-            loading="lazy">
-
-
-        <!-- PRODUCT INFO -->
-
-        <div class="product-info">
-
-
-            <h3>
-                ${product.name}
-            </h3>
-
-
-            <p>
-                ${product.description || ""}
-            </p>
-
-
-            <!-- PRICE -->
-
-            <div class="product-price">
-
-                <span class="price">
-
-                    ${product.price} تومان
-
+    const featuredBadge =
+        product.featured === true
+            ? `
+                <span class="product-badge">
+                    ویژه
                 </span>
+              `
+            : "";
 
-            </div>
+
+    return `
+
+        <article class="product-card">
+
+            ${featuredBadge}
 
 
-            <!-- BUTTON -->
+            <!-- FAVORITE -->
+
+            <button
+                class="wishlist"
+                type="button"
+                aria-label="افزودن به علاقه‌مندی‌ها"
+                data-id="${product.id}"
+            >
+
+                <i class="fa-regular fa-heart"></i>
+
+            </button>
+
+
+            <!-- PRODUCT IMAGE -->
 
             <a
                 href="product.html?id=${product.id}"
-                class="btn-product">
+                aria-label="مشاهده ${product.name}"
+            >
 
-                مشاهده محصول
+                <img
+                    src="${product.image}"
+                    alt="${product.name}"
+                    loading="lazy"
+                >
 
             </a>
 
 
-        </div>
+            <!-- PRODUCT INFO -->
 
+            <div class="product-info">
 
-    </div>
-
-`;
-}
-/* ========================================== RENDER PRODUCTS ========================================== */
-function renderProducts(list) {
-if (!productsContainer) return;
-
-
-/* پاک کردن محصولات قبلی */
-
-productsContainer.innerHTML = "";
-
-
-/* اگر محصولی پیدا نشد */
-
-if (!list || list.length === 0) {
-
-    if (noProducts) {
-
-        noProducts.style.display = "block";
-
-    } else {
-
-        productsContainer.innerHTML = `
-
-            <div class="empty-products">
-
-                <i class="fa-solid fa-box-open"></i>
 
                 <h3>
-                    محصولی پیدا نشد
+                    ${product.name}
                 </h3>
 
+
                 <p>
-                    لطفاً عبارت یا دسته‌بندی دیگری را انتخاب کنید.
+                    ${product.description || ""}
                 </p>
+
+
+                <!-- PRICE -->
+
+                <div class="product-price">
+
+                    <span class="price">
+                        ${product.price} تومان
+                    </span>
+
+                </div>
+
+
+                <!-- BUTTON -->
+
+                <a
+                    href="product.html?id=${product.id}"
+                    class="btn-product"
+                >
+                    مشاهده محصول
+                </a>
+
 
             </div>
 
-        `;
+        </article>
+
+    `;
+
+}
+
+
+/* ==========================================
+   RENDER PRODUCTS
+========================================== */
+
+function renderProducts(list) {
+
+    if (!productsContainer) {
+        return;
+    }
+
+
+    productsContainer.innerHTML = "";
+
+
+    /* NO PRODUCTS */
+
+    if (!Array.isArray(list) || list.length === 0) {
+
+        if (noProducts) {
+
+            noProducts.style.display = "block";
+
+        } else {
+
+            productsContainer.innerHTML = `
+
+                <div class="empty-products">
+
+                    <i class="fa-solid fa-box-open"></i>
+
+                    <h3>
+                        محصولی پیدا نشد
+                    </h3>
+
+                    <p>
+                        لطفاً عبارت یا دسته‌بندی دیگری را انتخاب کنید.
+                    </p>
+
+                </div>
+
+            `;
+
+        }
+
+        return;
 
     }
 
-    return;
+
+    /* HIDE NO PRODUCTS */
+
+    if (noProducts) {
+
+        noProducts.style.display = "none";
+
+    }
+
+
+    /* CREATE CARDS */
+
+    const cards =
+        list.map(product =>
+            createCard(product)
+        ).join("");
+
+
+    productsContainer.innerHTML = cards;
 
 }
-
-
-/* مخفی کردن پیام عدم وجود محصول */
-
-if (noProducts) {
-
-    noProducts.style.display = "none";
-
-}
-
-
-/* ساخت کارت محصولات */
-
-list.forEach(product => {
-
-    productsContainer.innerHTML +=
-        createCard(product);
-
-});
-}
-
-/* ========================================== UPDATE PRODUCTS SEARCH + FILTER + SORT ========================================== */
-function updateProducts() {
-let filteredProducts = [...allProducts];
 
 
 /* ==========================================
    SEARCH
-   ========================================== */
+========================================== */
 
-if (
-    searchInput &&
-    searchInput.value.trim() !== ""
-) {
+function filterBySearch(list) {
+
+    if (
+        !searchInput ||
+        searchInput.value.trim() === ""
+    ) {
+
+        return list;
+
+    }
+
 
     const keyword =
         searchInput.value
@@ -178,150 +262,143 @@ if (
             .toLowerCase();
 
 
-    filteredProducts =
-        filteredProducts.filter(product => {
+    return list.filter(product => {
+
+        const name =
+            String(product.name || "")
+                .toLowerCase();
 
 
-            const productName =
-                String(product.name || "")
-                    .toLowerCase();
+        const description =
+            String(product.description || "")
+                .toLowerCase();
 
 
-            const productDescription =
-                String(product.description || "")
-                    .toLowerCase();
+        const category =
+            String(product.category || "")
+                .toLowerCase();
 
 
-            const productCategory =
-                String(product.category || "")
-                    .toLowerCase();
+        return (
+            name.includes(keyword) ||
+            description.includes(keyword) ||
+            category.includes(keyword)
+        );
 
-
-            return (
-
-                productName.includes(keyword) ||
-
-                productDescription.includes(keyword) ||
-
-                productCategory.includes(keyword)
-
-            );
-
-        });
+    });
 
 }
 
 
 /* ==========================================
    CATEGORY FILTER
-   ========================================== */
+========================================== */
 
-if (
-    categoryFilter &&
-    categoryFilter.value !== "all"
-) {
+function filterByCategory(list) {
 
-    filteredProducts =
-        filteredProducts.filter(product =>
+    if (
+        !categoryFilter ||
+        categoryFilter.value === "all"
+    ) {
 
-            String(product.category).trim() ===
-            String(categoryFilter.value).trim()
+        return list;
 
+    }
+
+
+    const selectedCategory =
+        String(categoryFilter.value)
+            .trim();
+
+
+    return list.filter(product => {
+
+        return (
+            String(product.category || "")
+                .trim() === selectedCategory
         );
+
+    });
 
 }
 
 
 /* ==========================================
    SORT PRODUCTS
-   ========================================== */
+========================================== */
 
-if (sortProducts) {
+function sortProductList(list) {
+
+    if (!sortProducts) {
+        return list;
+    }
 
 
     switch (sortProducts.value) {
 
 
-        /* ارزان‌ترین */
+        /* ==================================
+           CHEAPEST
+        ================================== */
 
         case "cheap":
 
-            filteredProducts.sort((a, b) => {
+            return list.sort((a, b) => {
 
-                const priceA =
-                    Number(
-                        String(a.price)
-                            .replace(/[^\d]/g, "")
-                    );
-
-
-                const priceB =
-                    Number(
-                        String(b.price)
-                            .replace(/[^\d]/g, "")
-                    );
-
-
-                return priceA - priceB;
+                return (
+                    getProductPrice(a) -
+                    getProductPrice(b)
+                );
 
             });
 
-            break;
 
-
-        /* گران‌ترین */
+        /* ==================================
+           MOST EXPENSIVE
+        ================================== */
 
         case "expensive":
 
-            filteredProducts.sort((a, b) => {
+            return list.sort((a, b) => {
 
-                const priceA =
-                    Number(
-                        String(a.price)
-                            .replace(/[^\d]/g, "")
-                    );
-
-
-                const priceB =
-                    Number(
-                        String(b.price)
-                            .replace(/[^\d]/g, "")
-                    );
-
-
-                return priceB - priceA;
+                return (
+                    getProductPrice(b) -
+                    getProductPrice(a)
+                );
 
             });
 
-            break;
 
-
-        /* جدیدترین */
+        /* ==================================
+           NEWEST
+        ================================== */
 
         case "new":
 
-            filteredProducts.sort((a, b) =>
+            return list.sort((a, b) => {
 
-                Number(b.id) -
-                Number(a.id)
+                return (
+                    Number(b.id || 0) -
+                    Number(a.id || 0)
+                );
 
-            );
-
-            break;
+            });
 
 
-        /* حالت پیش‌فرض */
+        /* ==================================
+           DEFAULT
+        ================================== */
 
         default:
 
-            filteredProducts.sort((a, b) =>
+            return list.sort((a, b) => {
 
-                Number(a.id) -
-                Number(b.id)
+                return (
+                    Number(a.id || 0) -
+                    Number(b.id || 0)
+                );
 
-            );
-
-            break;
+            });
 
     }
 
@@ -329,87 +406,162 @@ if (sortProducts) {
 
 
 /* ==========================================
-   RENDER FINAL PRODUCTS
-   ========================================== */
+   GET CATEGORY FROM URL
+========================================== */
 
-renderProducts(filteredProducts);
-}
+function applyCategoryFromURL() {
 
-/* ========================================== EVENTS ========================================== */
-/* SEARCH EVENT */
-if (searchInput) {
-searchInput.addEventListener(
+    if (!categoryFilter) {
+        return;
+    }
 
-    "input",
 
-    function () {
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
 
-        updateProducts();
+
+    const selectedCategory =
+        params.get("category");
+
+
+    if (!selectedCategory) {
+        return;
+    }
+
+
+    const categoryExists =
+        Array.from(
+            categoryFilter.options
+        ).some(option => {
+
+            return (
+                option.value ===
+                selectedCategory
+            );
+
+        });
+
+
+    if (categoryExists) {
+
+        categoryFilter.value =
+            selectedCategory;
 
     }
 
-);
 }
-/* CATEGORY EVENT */
-if (categoryFilter) {
-categoryFilter.addEventListener(
 
-    "change",
 
-    function () {
+/* ==========================================
+   UPDATE PRODUCTS
+========================================== */
 
-        updateProducts();
+function updateProducts() {
 
+    if (!productsContainer) {
+        return;
     }
 
-);
-}
-/* SORT EVENT */
-if (sortProducts) {
-sortProducts.addEventListener(
 
-    "change",
+    let filteredProducts =
+        [...allProducts];
 
-    function () {
 
-        updateProducts();
+    /* SEARCH */
 
-    }
+    filteredProducts =
+        filterBySearch(
+            filteredProducts
+        );
 
-);
-}
-/* ========================================== GET CATEGORY FROM URL ========================================== */
-/* Example:
-products.html?category=transparent-case
-products.html?category=magsafe-case
-products.html?category=full-glass
-products.html?category=privacy-glass
-products.html?category=lens-protector */
-const urlParams = new URLSearchParams( window.location.search );
-const selectedCategory = urlParams.get("category");
-if ( selectedCategory && categoryFilter ) {
-const categoryExists =
-    Array.from(
-        categoryFilter.options
-    ).some(option =>
 
-        option.value === selectedCategory
+    /* CATEGORY */
 
+    filteredProducts =
+        filterByCategory(
+            filteredProducts
+        );
+
+
+    /* SORT */
+
+    filteredProducts =
+        sortProductList(
+            filteredProducts
+        );
+
+
+    /* RENDER */
+
+    renderProducts(
+        filteredProducts
     );
 
+}
 
-if (categoryExists) {
 
-    categoryFilter.value =
-        selectedCategory;
+/* ==========================================
+   EVENTS
+========================================== */
+
+function initProductEvents() {
+
+
+    /* SEARCH */
+
+    if (searchInput) {
+
+        searchInput.addEventListener(
+            "input",
+            updateProducts
+        );
+
+    }
+
+
+    /* CATEGORY */
+
+    if (categoryFilter) {
+
+        categoryFilter.addEventListener(
+            "change",
+            updateProducts
+        );
+
+    }
+
+
+    /* SORT */
+
+    if (sortProducts) {
+
+        sortProducts.addEventListener(
+            "change",
+            updateProducts
+        );
+
+    }
 
 }
-}
-/* ========================================== FIRST LOAD ========================================== */
-document.addEventListener( "DOMContentLoaded",
-function () {
 
-    updateProducts();
 
-}
+/* ==========================================
+   START
+========================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        initProductsPage();
+
+        applyCategoryFromURL();
+
+        initProductEvents();
+
+        updateProducts();
+
+    }
 );
