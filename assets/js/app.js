@@ -1,1380 +1,957 @@
-/* ===========================================================
+/* ==========================================
    RAYANTAG.IR
-   app.js FINAL
-=========================================================== */
+   APP.JS
+========================================== */
 
-"use strict";
+(function () {
+    "use strict";
 
+    /* ==========================================
+       HELPERS
+    ========================================== */
 
-/* ======================================
-   SHORTCUTS
-====================================== */
+    const $ = (selector, parent = document) =>
+        parent.querySelector(selector);
 
-const $ = (selector) =>
-    document.querySelector(selector);
-
-
-const $$ = (selector) =>
-    document.querySelectorAll(selector);
-
-
-/* ======================================
-   DOM READY
-====================================== */
-
-document.addEventListener("DOMContentLoaded", () => {
-
-    initHeader();
-
-    initMobileMenu();
-
-    initBackToTop();
-
-    initSmoothScroll();
-
-    initCurrentMenu();
-
-    initProductGallery();
-
-    initQuantity();
-
-    initWishlist();
-
-    initCartButton();
-
-    initRevealAnimation();
-
-    initRippleButtons();
-
-    initCounters();
-
-    updateCartCounter();
-
-    renderFeaturedProducts();
-
-});
+    const $$ = (selector, parent = document) =>
+        [...parent.querySelectorAll(selector)];
 
 
-/* ======================================
-   STICKY HEADER
-====================================== */
+    /* ==========================================
+       PRODUCTS SAFE ACCESS
+    ========================================== */
 
-function initHeader() {
-
-    const header =
-        $("header");
-
-    if (!header) return;
-
-
-    const handleHeader = () => {
-
-        if (window.scrollY > 60) {
-
-            header.classList.add("sticky");
-
-        } else {
-
-            header.classList.remove("sticky");
-
-        }
-
+    const getProducts = () => {
+        return (
+            typeof PRODUCTS !== "undefined" &&
+            Array.isArray(PRODUCTS)
+        )
+            ? PRODUCTS
+            : [];
     };
 
 
-    window.addEventListener(
-        "scroll",
-        handleHeader
-    );
+    /* ==========================================
+       HEADER
+    ========================================== */
+
+    function initHeader() {
+
+        const header = $(".header");
+
+        if (!header) return;
+
+        const handleScroll = () => {
+
+            if (window.scrollY > 30) {
+                header.classList.add("scrolled");
+            } else {
+                header.classList.remove("scrolled");
+            }
+        };
+
+        handleScroll();
+
+        window.addEventListener(
+            "scroll",
+            handleScroll,
+            { passive: true }
+        );
+    }
 
 
-    handleHeader();
+    /* ==========================================
+       MOBILE MENU
+    ========================================== */
 
-}
+    function initMobileMenu() {
 
+        const menuButton = $(".menu-btn");
+        const mobileMenu = $(".mobile-menu");
 
-/* ======================================
-   MOBILE MENU
-====================================== */
+        if (!menuButton || !mobileMenu) return;
 
-function initMobileMenu() {
-
-    const menuBtn =
-        $(".menu-btn");
-
-    const mobileMenu =
-        $(".mobile-menu");
-
-
-    if (!menuBtn || !mobileMenu) return;
-
-
-    menuBtn.addEventListener(
-        "click",
-        () => {
+        menuButton.addEventListener("click", () => {
 
             mobileMenu.classList.toggle("active");
+            menuButton.classList.toggle("active");
 
-            menuBtn.classList.toggle("active");
+            const expanded =
+                mobileMenu.classList.contains("active");
 
-        }
-    );
-
-
-    /* بستن منو بعد از کلیک روی لینک */
-
-    mobileMenu
-        .querySelectorAll("a")
-        .forEach(link => {
-
-            link.addEventListener(
-                "click",
-                () => {
-
-                    mobileMenu.classList.remove("active");
-
-                    menuBtn.classList.remove("active");
-
-                }
+            menuButton.setAttribute(
+                "aria-expanded",
+                expanded ? "true" : "false"
             );
-
         });
 
+        $$(".mobile-menu a").forEach(link => {
 
-    /* بستن منو با کلیک بیرون */
-
-    document.addEventListener(
-        "click",
-        (event) => {
-
-            if (
-                !mobileMenu.contains(event.target) &&
-                !menuBtn.contains(event.target)
-            ) {
+            link.addEventListener("click", () => {
 
                 mobileMenu.classList.remove("active");
+                menuButton.classList.remove("active");
 
-                menuBtn.classList.remove("active");
-
-            }
-
-        }
-    );
-
-}
-
-
-/* ======================================
-   ACTIVE MENU
-====================================== */
-
-function initCurrentMenu() {
-
-    let currentPage =
-        window.location.pathname
-            .split("/")
-            .pop();
-
-
-    if (!currentPage) {
-
-        currentPage = "index.html";
-
+                menuButton.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+            });
+        });
     }
 
 
-    $$("nav a, .mobile-menu a")
-        .forEach(link => {
+    /* ==========================================
+       BACK TO TOP
+    ========================================== */
 
-            const href =
-                link.getAttribute("href");
+    function initBackToTop() {
 
+        const button = $("#backToTop");
 
-            if (href === currentPage) {
+        if (!button) return;
 
-                link.classList.add("active");
+        const update = () => {
 
+            if (window.scrollY > 500) {
+                button.classList.add("show");
+            } else {
+                button.classList.remove("show");
             }
+        };
 
-        });
+        update();
 
-}
-
-
-/* ======================================
-   SMOOTH SCROLL
-====================================== */
-
-function initSmoothScroll() {
-
-    $$('a[href^="#"]')
-        .forEach(anchor => {
-
-            anchor.addEventListener(
-                "click",
-                function (event) {
-
-                    const targetId =
-                        this.getAttribute("href");
-
-
-                    if (
-                        !targetId ||
-                        targetId === "#"
-                    ) return;
-
-
-                    const target =
-                        document.querySelector(targetId);
-
-
-                    if (!target) return;
-
-
-                    event.preventDefault();
-
-
-                    target.scrollIntoView({
-
-                        behavior: "smooth",
-
-                        block: "start"
-
-                    });
-
-                }
-            );
-
-        });
-
-}
-
-/* ======================================
-   BACK TO TOP
-====================================== */
-
-function initBackToTop() {
-
-    let btn =
-        $(".back-to-top");
-
-
-    if (!btn) {
-
-        btn =
-            document.createElement("button");
-
-
-        btn.className =
-            "back-to-top";
-
-
-        btn.type =
-            "button";
-
-
-        btn.setAttribute(
-            "aria-label",
-            "بازگشت به بالا"
+        window.addEventListener(
+            "scroll",
+            update,
+            { passive: true }
         );
 
-
-        btn.innerHTML =
-            '<i class="fa-solid fa-arrow-up"></i>';
-
-
-        document.body.appendChild(btn);
-
-    }
-
-
-    const handleScroll = () => {
-
-        if (window.scrollY > 400) {
-
-            btn.classList.add("show");
-
-        } else {
-
-            btn.classList.remove("show");
-
-        }
-
-    };
-
-
-    window.addEventListener(
-        "scroll",
-        handleScroll
-    );
-
-
-    handleScroll();
-
-
-    btn.addEventListener(
-        "click",
-        () => {
+        button.addEventListener("click", () => {
 
             window.scrollTo({
-
                 top: 0,
-
                 behavior: "smooth"
-
             });
+        });
+    }
 
-        }
-    );
 
-}
+    /* ==========================================
+       SMOOTH SCROLL
+    ========================================== */
 
+    function initSmoothScroll() {
 
-/* ======================================
-   PRODUCT GALLERY
-====================================== */
+        $$('a[href^="#"]').forEach(link => {
 
-function initProductGallery() {
+            link.addEventListener("click", event => {
 
-    const mainImage =
-        $("#mainProductImage");
-
-
-    const thumbs =
-        $$(".thumb");
-
-
-    if (
-        !mainImage ||
-        thumbs.length === 0
-    ) return;
-
-
-    thumbs.forEach(thumb => {
-
-        thumb.addEventListener(
-            "click",
-            () => {
-
-                thumbs.forEach(item => {
-
-                    item.classList.remove("active");
-
-                });
-
-
-                thumb.classList.add("active");
-
-
-                const imageSource =
-                    thumb.dataset.image ||
-                    thumb.src;
-
-
-                mainImage.src =
-                    imageSource;
-
-
-                mainImage.alt =
-                    thumb.alt ||
-                    "محصول رایان تگ";
-
-            }
-        );
-
-    });
-
-}
-
-
-/* ======================================
-   QUANTITY
-====================================== */
-
-function initQuantity() {
-
-    const minus =
-        $("#minus");
-
-
-    const plus =
-        $("#plus");
-
-
-    const input =
-        $("#quantity");
-
-
-    if (
-        !minus ||
-        !plus ||
-        !input
-    ) return;
-
-
-    minus.addEventListener(
-        "click",
-        () => {
-
-            let value =
-                parseInt(input.value) || 1;
-
-
-            if (value > 1) {
-
-                input.value =
-                    value - 1;
-
-            }
-
-        }
-    );
-
-
-    plus.addEventListener(
-        "click",
-        () => {
-
-            let value =
-                parseInt(input.value) || 1;
-
-
-            input.value =
-                value + 1;
-
-        }
-    );
-
-
-    input.addEventListener(
-        "change",
-        () => {
-
-            let value =
-                parseInt(input.value);
-
-
-            if (
-                !value ||
-                value < 1
-            ) {
-
-                input.value = 1;
-
-            }
-
-        }
-    );
-
-}
-
-
-/* ======================================
-   WISHLIST
-====================================== */
-
-function initWishlist() {
-
-    document.addEventListener(
-        "click",
-        event => {
-
-            const button =
-                event.target.closest(
-                    ".wishlist, .favorite, .product-favorite"
-                );
-
-
-            if (!button) return;
-
-
-            event.preventDefault();
-
-
-            button.classList.toggle("active");
-
-
-            const icon =
-                button.querySelector("i");
-
-
-            if (icon) {
+                const href = link.getAttribute("href");
 
                 if (
-                    button.classList.contains("active")
+                    !href ||
+                    href === "#" ||
+                    href.length < 2
                 ) {
+                    return;
+                }
 
-                    icon.classList.remove(
-                        "fa-regular"
-                    );
+                const target = $(href);
+
+                if (!target) return;
+
+                event.preventDefault();
+
+                target.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+            });
+        });
+    }
 
 
-                    icon.classList.add(
-                        "fa-solid"
+    /* ==========================================
+       CURRENT MENU
+    ========================================== */
+
+    function initCurrentMenu() {
+
+        const currentPage =
+            window.location.pathname
+                .split("/")
+                .pop() || "index.html";
+
+        $$(".header nav a").forEach(link => {
+
+            const href = link.getAttribute("href");
+
+            if (!href) return;
+
+            const linkPage =
+                href.split("?")[0]
+                    .split("#")[0]
+                    .split("/")
+                    .pop();
+
+            if (
+                linkPage === currentPage &&
+                !href.startsWith("#")
+            ) {
+                link.classList.add("active");
+            }
+        });
+    }
+
+
+    /* ==========================================
+       PRODUCT GALLERY
+    ========================================== */
+
+    function initProductGallery() {
+
+        const mainImage = $("#productImage");
+
+        if (!mainImage) return;
+
+        $$(".product-thumbnail").forEach(thumbnail => {
+
+            thumbnail.addEventListener("click", () => {
+
+                const image =
+                    thumbnail.getAttribute("data-image") ||
+                    thumbnail.getAttribute("src");
+
+                if (!image) return;
+
+                mainImage.src = image;
+
+                $$(".product-thumbnail").forEach(item => {
+                    item.classList.remove("active");
+                });
+
+                thumbnail.classList.add("active");
+            });
+        });
+    }
+
+
+    /* ==========================================
+       QUANTITY
+    ========================================== */
+
+    function initQuantity() {
+
+        const minus = $("#minus");
+        const plus = $("#plus");
+        const quantity = $("#quantity");
+
+        if (!minus || !plus || !quantity) return;
+
+        const normalize = () => {
+
+            let value =
+                parseInt(quantity.value, 10);
+
+            if (!Number.isFinite(value)) {
+                value = 1;
+            }
+
+            value = Math.max(1, Math.min(99, value));
+
+            quantity.value = value;
+
+            return value;
+        };
+
+        minus.addEventListener("click", () => {
+
+            const value = normalize();
+
+            quantity.value = Math.max(
+                1,
+                value - 1
+            );
+        });
+
+        plus.addEventListener("click", () => {
+
+            const value = normalize();
+
+            quantity.value = Math.min(
+                99,
+                value + 1
+            );
+        });
+
+        quantity.addEventListener("input", normalize);
+        quantity.addEventListener("change", normalize);
+    }
+
+
+    /* ==========================================
+       WISHLIST
+    ========================================== */
+
+    function initWishlist() {
+
+        const buttons = $$(".wishlist");
+
+        if (!buttons.length) return;
+
+        let wishlist = [];
+
+        try {
+            wishlist =
+                JSON.parse(
+                    localStorage.getItem("wishlist")
+                ) || [];
+        } catch {
+            wishlist = [];
+        }
+
+        if (!Array.isArray(wishlist)) {
+            wishlist = [];
+        }
+
+        buttons.forEach(button => {
+
+            const id =
+                String(button.dataset.id || "");
+
+            if (!id) return;
+
+            if (wishlist.includes(id)) {
+                button.classList.add("active");
+            }
+
+            button.addEventListener("click", event => {
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                const index =
+                    wishlist.indexOf(id);
+
+                if (index === -1) {
+
+                    wishlist.push(id);
+                    button.classList.add("active");
+
+                    showToast(
+                        "محصول به علاقه‌مندی‌ها اضافه شد."
                     );
 
                 } else {
 
-                    icon.classList.remove(
-                        "fa-solid"
+                    wishlist.splice(index, 1);
+                    button.classList.remove("active");
+
+                    showToast(
+                        "محصول از علاقه‌مندی‌ها حذف شد."
                     );
-
-
-                    icon.classList.add(
-                        "fa-regular"
-                    );
-
                 }
 
-            }
-
-
-            if (
-                button.classList.contains("active")
-            ) {
-
-                showToast(
-                    "به علاقه‌مندی‌ها اضافه شد"
+                localStorage.setItem(
+                    "wishlist",
+                    JSON.stringify(wishlist)
                 );
-
-            } else {
-
-                showToast(
-                    "از علاقه‌مندی‌ها حذف شد"
-                );
-
-            }
-
-        }
-    );
-
-}
-
-
-/* ======================================
-   TOAST MESSAGE
-====================================== */
-
-function showToast(message) {
-
-    let toast =
-        $("#toast");
-
-
-    if (!toast) {
-
-        toast =
-            document.createElement("div");
-
-
-        toast.id =
-            "toast";
-
-
-        document.body.appendChild(toast);
-
+            });
+        });
     }
 
 
-    toast.textContent =
-        message;
+    /* ==========================================
+       CART STORAGE
+    ========================================== */
+
+    function getCart() {
+
+        try {
+
+            const cart =
+                JSON.parse(
+                    localStorage.getItem("cart")
+                ) || [];
+
+            return Array.isArray(cart)
+                ? cart
+                : [];
+
+        } catch {
+
+            return [];
+        }
+    }
 
 
-    toast.classList.add(
-        "active"
-    );
+    function saveCart(cart) {
+
+        localStorage.setItem(
+            "cart",
+            JSON.stringify(cart)
+        );
+    }
 
 
-    clearTimeout(
-        window.toastTimer
-    );
+    /* ==========================================
+       ADD TO CART
+    ========================================== */
 
+    window.addToCart = function (
+        productId,
+        quantity = 1
+    ) {
 
-    window.toastTimer =
-        setTimeout(() => {
+        const products = getProducts();
 
-            toast.classList.remove(
-                "active"
+        const id = Number(productId);
+
+        const product =
+            products.find(
+                item => Number(item.id) === id
             );
 
-        }, 2500);
+        if (!product) {
 
-}
+            showToast(
+                "محصول پیدا نشد."
+            );
 
+            return false;
+        }
 
-/* ======================================
-   ADD TO CART
-====================================== */
+        let qty =
+            parseInt(quantity, 10);
 
-function initCartButton() {
+        if (!Number.isFinite(qty)) {
+            qty = 1;
+        }
 
-    const button =
-        $(".add-cart");
+        qty = Math.max(
+            1,
+            Math.min(99, qty)
+        );
 
+        const cart = getCart();
 
-    if (!button) return;
+        const existing =
+            cart.find(
+                item => Number(item.id) === id
+            );
 
+        if (existing) {
 
-    button.addEventListener(
-        "click",
-        () => {
-
-            const productId =
-                button.dataset.id;
-
-
-            if (!productId) {
-
-                showToast(
-                    "اطلاعات محصول پیدا نشد"
+            existing.quantity =
+                Math.min(
+                    99,
+                    Number(existing.quantity || 0) + qty
                 );
 
-                return;
+        } else {
 
-            }
-
-
-            const quantityInput =
-                $("#quantity");
-
-
-            const quantity =
-                quantityInput
-                    ? parseInt(quantityInput.value) || 1
-                    : 1;
-
-
-            addToCart(
-                productId,
-                quantity
-            );
-
+            cart.push({
+                id: id,
+                quantity: qty
+            });
         }
-    );
 
-}
+        saveCart(cart);
 
+        updateCartCounter();
 
-/* ======================================
-   ADD PRODUCT TO CART
-====================================== */
-
-function addToCart(
-    productId,
-    quantity = 1
-) {
-
-    if (
-        typeof PRODUCTS === "undefined"
-    ) {
+        pulseCartCounter();
 
         showToast(
-            "اطلاعات محصولات بارگذاری نشد"
+            "محصول به سبد خرید اضافه شد."
         );
 
-        return;
-
-    }
-
-
-    const product =
-        PRODUCTS.find(item =>
-
-            String(item.id) ===
-            String(productId)
-
-        );
-
-
-    if (!product) {
-
-        showToast(
-            "محصول موردنظر پیدا نشد"
-        );
-
-        return;
-
-    }
-
-
-    let cart =
-        JSON.parse(
-            localStorage.getItem("cart")
-        ) || [];
-
-
-    const existingProduct =
-        cart.find(item =>
-
-            String(item.id) ===
-            String(product.id)
-
-        );
-
-
-    if (existingProduct) {
-
-        existingProduct.quantity +=
-            quantity;
-
-    } else {
-
-        cart.push({
-
-            id: product.id,
-
-            name: product.name,
-
-            price: product.price,
-
-            image: product.image,
-
-            quantity: quantity
-
-        });
-
-    }
-
-
-    localStorage.setItem(
-
-        "cart",
-
-        JSON.stringify(cart)
-
-    );
-
-
-    updateCartCounter();
-
-
-    showToast(
-        "محصول به سبد خرید اضافه شد"
-    );
-
-}
-
-
-/* ======================================
-   CART COUNTER
-====================================== */
-
-function updateCartCounter() {
-
-    const counters =
-        $$("#cartCount");
-
-
-    if (!counters.length) return;
-
-
-    const cart =
-        JSON.parse(
-            localStorage.getItem("cart")
-        ) || [];
-
-
-    let total = 0;
-
-
-    cart.forEach(item => {
-
-        total +=
-            Number(item.quantity) || 0;
-
-    });
-
-
-    counters.forEach(counter => {
-
-        counter.textContent =
-            total;
-
-    });
-
-}
-
-
-/* ======================================
-   GET CART
-====================================== */
-
-function getCart() {
-
-    return JSON.parse(
-        localStorage.getItem("cart")
-    ) || [];
-
-}
-
-
-/* ======================================
-   SAVE CART
-====================================== */
-
-function saveCart(cart) {
-
-    localStorage.setItem(
-
-        "cart",
-
-        JSON.stringify(cart)
-
-    );
-
-
-    updateCartCounter();
-
-}
-
-
-/* ======================================
-   REMOVE FROM CART
-====================================== */
-
-function removeFromCart(productId) {
-
-    let cart =
-        getCart();
-
-
-    cart =
-        cart.filter(item =>
-
-            String(item.id) !==
-            String(productId)
-
-        );
-
-
-    saveCart(cart);
-
-
-    showToast(
-        "محصول از سبد خرید حذف شد"
-    );
-
-}
-
-
-/* ======================================
-   CLEAR CART
-====================================== */
-
-function clearCart() {
-
-    localStorage.removeItem(
-        "cart"
-    );
-
-
-    updateCartCounter();
-
-}
-
-/* ======================================
-   FEATURED PRODUCTS
-====================================== */
-
-function renderFeaturedProducts() {
-
-    const featuredContainer =
-        $("#featuredProducts");
-
-
-    if (!featuredContainer) return;
-
-
-    if (
-        typeof PRODUCTS === "undefined" ||
-        !Array.isArray(PRODUCTS)
-    ) {
-
-        return;
-
-    }
-
-
-    /*
-       ابتدا محصولاتی که featured هستند
-       نمایش داده می‌شوند.
-       اگر کمتر از 4 محصول ویژه وجود داشت،
-       از سایر محصولات استفاده می‌شود.
-    */
-
-
-    let featuredProducts =
-        PRODUCTS.filter(product =>
-            product.featured === true
-        );
-
-
-    if (featuredProducts.length === 0) {
-
-        featuredProducts =
-            PRODUCTS.slice(0, 4);
-
-    } else {
-
-        featuredProducts =
-            featuredProducts.slice(0, 4);
-
-    }
-
-
-    featuredContainer.innerHTML = "";
-
-
-    featuredProducts.forEach(product => {
-
-
-        featuredContainer.innerHTML += `
-
-            <div class="product-card">
-
-
-                <span class="product-badge">
-                    ویژه
-                </span>
-
-
-                <!-- FAVORITE -->
-
-                <button
-                    class="wishlist"
-                    type="button"
-                    aria-label="افزودن به علاقه‌مندی‌ها">
-
-                    <i class="fa-regular fa-heart"></i>
-
-                </button>
-
-
-                <!-- IMAGE -->
-
-                <img
-                    src="${product.image}"
-                    alt="${product.name}"
-                    loading="lazy">
-
-
-                <!-- INFO -->
-
-                <div class="product-info">
-
-
-                    <h3>
-                        ${product.name}
-                    </h3>
-
-
-                    <p>
-                        ${product.description || ""}
-                    </p>
-
-
-                    <!-- PRICE -->
-
-                    <div class="product-price">
-
-                        <span class="price">
-
-                            ${formatPrice(product.price)}
-
-                        </span>
-
-                    </div>
-
-
-                    <!-- BUTTON -->
-
-                    <a
-                        href="product.html?id=${product.id}"
-                        class="btn-product">
-
-                        مشاهده محصول
-
-                    </a>
-
-
-                </div>
-
-
-            </div>
-
-        `;
-
-    });
-
-}
-
-
-/* ======================================
-   REVEAL ANIMATION ON SCROLL
-====================================== */
-
-function initRevealAnimation() {
-
-    const elements = $$(
-        ".section-header, .product-card, .category-card, .feature-card, .why-card, .contact-card, .about-content, .cta-box, .banner-box"
-    );
-
-
-    if (
-        elements.length === 0
-    ) return;
-
-
-    if (
-        !("IntersectionObserver" in window)
-    ) {
-
-        elements.forEach(element => {
-
-            element.classList.add("show");
-
-        });
-
-        return;
-
-    }
-
-
-    const observer =
-        new IntersectionObserver(
-
-            entries => {
-
-                entries.forEach(entry => {
-
-                    if (
-                        entry.isIntersecting
-                    ) {
-
-                        entry.target.classList.add(
-                            "show"
-                        );
-
-
-                        observer.unobserve(
-                            entry.target
-                        );
-
-                    }
-
-                });
-
-            },
-
-            {
-
-                threshold: 0.12,
-
-                rootMargin:
-                    "0px 0px -40px 0px"
-
-            }
-
-        );
-
-
-    elements.forEach(element => {
-
-        element.classList.add(
-            "reveal"
-        );
-
-
-        observer.observe(
-            element
-        );
-
-    });
-
-}
-
-
-/* ======================================
-   BUTTON RIPPLE EFFECT
-====================================== */
-
-function initRippleButtons() {
-
-    const buttons = $$(
-        ".btn, .btn-outline, .btn-product, button"
-    );
-
-
-    buttons.forEach(button => {
-
-
-        button.addEventListener(
-            "click",
-            function (event) {
-
-
-                const ripple =
-                    document.createElement("span");
-
-
-                ripple.className =
-                    "ripple";
-
-
-                const rect =
-                    this.getBoundingClientRect();
-
-
-                ripple.style.left =
-                    `${event.clientX - rect.left}px`;
-
-
-                ripple.style.top =
-                    `${event.clientY - rect.top}px`;
-
-
-                this.appendChild(
-                    ripple
-                );
-
-
-                setTimeout(() => {
-
-                    ripple.remove();
-
-                }, 600);
-
-            }
-        );
-
-    });
-
-}
-
-
-/* ======================================
-   COUNTER ANIMATION
-====================================== */
-
-function initCounters() {
-
-    const counters =
-        $$(".counter-box h2");
-
-
-    if (
-        counters.length === 0
-    ) return;
-
-
-    counters.forEach(counter => {
-
-
-        const originalText =
-            counter.innerText;
-
-
-        const number =
-            parseInt(
-                originalText.replace(/\D/g, "")
-            );
-
-
-        if (!number) return;
-
-
-        let current = 0;
-
-
-        const step =
-            Math.max(
-                1,
-                Math.ceil(number / 60)
-            );
-
-
-        const suffix =
-            originalText.replace(
-                /[\d۰-۹]/g,
-                ""
-            );
-
-
-        const timer =
-            setInterval(() => {
-
-
-                current += step;
-
-
-                if (
-                    current >= number
-                ) {
-
-                    current = number;
-
-
-                    clearInterval(
-                        timer
-                    );
-
-                }
-
-
-                counter.innerText =
-                    current.toLocaleString("fa-IR") +
-                    suffix;
-
-
-            }, 30);
-
-    });
-
-}
-
-
-/* ======================================
-   FORMAT PRICE
-====================================== */
-
-function formatPrice(price) {
-
-    const numericPrice =
-        Number(
-            String(price || "")
-                .replace(/[^\d]/g, "")
-        );
-
-
-    if (!numericPrice) {
-
-        return "تماس بگیرید";
-
-    }
-
-
-    return (
-        numericPrice.toLocaleString("fa-IR") +
-        " تومان"
-    );
-
-}
-
-
-/* ======================================
-   DEBOUNCE HELPER
-====================================== */
-
-function debounce(
-    func,
-    delay = 300
-) {
-
-    let timer;
-
-
-    return (...args) => {
-
-
-        clearTimeout(
-            timer
-        );
-
-
-        timer =
-            setTimeout(() => {
-
-                func(...args);
-
-            }, delay);
-
+        return true;
     };
 
-}
 
+    /* ==========================================
+       CART BUTTON
+    ========================================== */
 
-/* ======================================
-   PAGE LOADING COMPLETE
-====================================== */
+    function initCartButton() {
 
-window.addEventListener(
-    "load",
-    () => {
+        $$(".add-cart").forEach(button => {
 
-        document.body.classList.add(
-            "page-loaded"
-        );
+            button.addEventListener("click", event => {
 
+                event.preventDefault();
+
+                const productId =
+                    button.dataset.id;
+
+                if (!productId) return;
+
+                let quantity = 1;
+
+                const quantityInput =
+                    $("#quantity");
+
+                if (quantityInput) {
+
+                    const value =
+                        parseInt(
+                            quantityInput.value,
+                            10
+                        );
+
+                    if (
+                        Number.isFinite(value) &&
+                        value > 0
+                    ) {
+                        quantity = value;
+                    }
+                }
+
+                window.addToCart(
+                    productId,
+                    quantity
+                );
+            });
+        });
     }
-);
 
 
-/* ======================================
-   PREVENT BROKEN IMAGE DISPLAY
-====================================== */
+    /* ==========================================
+       CART COUNTER
+    ========================================== */
 
-document.addEventListener(
-    "error",
-    event => {
+    function updateCartCounter() {
 
-        const image =
-            event.target;
+        const cart = getCart();
 
-
-        if (
-            image.tagName === "IMG"
-        ) {
-
-            image.style.opacity = "0";
-
-
-            image.setAttribute(
-                "alt",
-                "تصویر محصول در دسترس نیست"
+        const count =
+            cart.reduce(
+                (total, item) =>
+                    total +
+                    Math.max(
+                        0,
+                        Number(item.quantity) || 0
+                    ),
+                0
             );
 
+        $$("#cartCount").forEach(counter => {
+            counter.textContent = count;
+        });
+    }
+
+
+    function pulseCartCounter() {
+
+        $$("#cartCount").forEach(counter => {
+
+            counter.classList.remove(
+                "cart-count-pulse"
+            );
+
+            void counter.offsetWidth;
+
+            counter.classList.add(
+                "cart-count-pulse"
+            );
+        });
+    }
+
+
+    /* ==========================================
+       FEATURED PRODUCTS
+    ========================================== */
+
+    function renderFeaturedProducts() {
+
+        const container =
+            $("#featuredProducts");
+
+        if (!container) return;
+
+        const products = getProducts();
+
+        if (!products.length) {
+
+            container.innerHTML = "";
+
+            return;
         }
 
-    },
+        const featured =
+            products.slice(0, 4);
 
-    true
-);
+        container.innerHTML =
+            featured.map(product => {
+
+                const price =
+                    Number(
+                        String(product.price || "")
+                            .replace(/[^\d]/g, "")
+                    ) || 0;
+
+                const formattedPrice =
+                    price.toLocaleString("fa-IR");
+
+                const image =
+                    product.image ||
+                    "assets/products/transparent-case.webp";
+
+                const title =
+                    product.name ||
+                    "محصول رایان تگ";
+
+                const description =
+                    product.description ||
+                    "";
+
+                return `
+                    <article class="product-card">
+
+                        <a
+                            href="product.html?id=${encodeURIComponent(product.id)}"
+                            aria-label="${escapeHTML(title)}"
+                        >
+                            <img
+                                src="${escapeHTML(image)}"
+                                alt="${escapeHTML(title)}"
+                                loading="lazy"
+                            >
+                        </a>
+
+                        <button
+                            type="button"
+                            class="wishlist"
+                            data-id="${product.id}"
+                            aria-label="افزودن به علاقه‌مندی"
+                        >
+                            ♡
+                        </button>
+
+                        <div class="product-info">
+
+                            <h3>
+                                ${escapeHTML(title)}
+                            </h3>
+
+                            <p>
+                                ${escapeHTML(description)}
+                            </p>
+
+                            <div class="product-price">
+                                ${formattedPrice}
+                                <span>تومان</span>
+                            </div>
+
+                            <a
+                                href="product.html?id=${encodeURIComponent(product.id)}"
+                                class="btn-product"
+                            >
+                                مشاهده محصول
+                            </a>
+
+                        </div>
+
+                    </article>
+                `;
+
+            }).join("");
+
+        initWishlist();
+    }
 
 
-/* ======================================
-   EXTERNAL LINKS SAFETY
-====================================== */
+    /* ==========================================
+       REVEAL ANIMATION
+    ========================================== */
 
-function initExternalLinks() {
+    function initRevealAnimation() {
 
-    $$('a[target="_blank"]')
-        .forEach(link => {
+        const elements =
+            $$(".reveal");
 
-            if (
-                !link.hasAttribute("rel")
-            ) {
+        if (!elements.length) return;
 
-                link.setAttribute(
-                    "rel",
-                    "noopener noreferrer"
+        if (
+            !("IntersectionObserver" in window)
+        ) {
+
+            elements.forEach(element => {
+                element.classList.add("active");
+            });
+
+            return;
+        }
+
+        const observer =
+            new IntersectionObserver(
+                entries => {
+
+                    entries.forEach(entry => {
+
+                        if (
+                            entry.isIntersecting
+                        ) {
+
+                            entry.target.classList.add(
+                                "active"
+                            );
+
+                            observer.unobserve(
+                                entry.target
+                            );
+                        }
+                    });
+
+                },
+                {
+                    threshold: 0.12
+                }
+            );
+
+        elements.forEach(element => {
+            observer.observe(element);
+        });
+    }
+
+
+    /* ==========================================
+       RIPPLE BUTTONS
+    ========================================== */
+
+    function initRippleButtons() {
+
+        $$(".btn, .btn-outline, .btn-product").forEach(button => {
+
+            button.addEventListener(
+                "click",
+                function (event) {
+
+                    const rect =
+                        this.getBoundingClientRect();
+
+                    const ripple =
+                        document.createElement("span");
+
+                    const size =
+                        Math.max(
+                            rect.width,
+                            rect.height
+                        );
+
+                    ripple.style.position = "absolute";
+                    ripple.style.width = `${size}px`;
+                    ripple.style.height = `${size}px`;
+                    ripple.style.left =
+                        `${event.clientX - rect.left - size / 2}px`;
+                    ripple.style.top =
+                        `${event.clientY - rect.top - size / 2}px`;
+                    ripple.style.borderRadius = "50%";
+                    ripple.style.background =
+                        "rgba(255,255,255,.25)";
+                    ripple.style.pointerEvents = "none";
+                    ripple.style.transform = "scale(0)";
+                    ripple.style.transition =
+                        "transform .5s ease, opacity .5s ease";
+                    ripple.style.opacity = "1";
+
+                    this.appendChild(ripple);
+
+                    requestAnimationFrame(() => {
+
+                        ripple.style.transform =
+                            "scale(1)";
+                        ripple.style.opacity = "0";
+                    });
+
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 550);
+                }
+            );
+        });
+    }
+
+
+    /* ==========================================
+       COUNTERS
+    ========================================== */
+
+    function initCounters() {
+
+        const counters =
+            $$(".counter");
+
+        if (!counters.length) return;
+
+        if (
+            !("IntersectionObserver" in window)
+        ) {
+            counters.forEach(counter => {
+                counter.textContent =
+                    counter.dataset.target || "0";
+            });
+            return;
+        }
+
+        const observer =
+            new IntersectionObserver(
+                entries => {
+
+                    entries.forEach(entry => {
+
+                        if (
+                            !entry.isIntersecting
+                        ) {
+                            return;
+                        }
+
+                        const counter =
+                            entry.target;
+
+                        const target =
+                            Number(
+                                counter.dataset.target
+                            ) || 0;
+
+                        let current = 0;
+
+                        const duration = 1200;
+                        const start =
+                            performance.now();
+
+                        function animate(time) {
+
+                            const progress =
+                                Math.min(
+                                    (time - start) /
+                                        duration,
+                                    1
+                                );
+
+                            current =
+                                Math.floor(
+                                    progress * target
+                                );
+
+                            counter.textContent =
+                                current.toLocaleString(
+                                    "fa-IR"
+                                );
+
+                            if (
+                                progress < 1
+                            ) {
+                                requestAnimationFrame(
+                                    animate
+                                );
+                            }
+                        }
+
+                        requestAnimationFrame(
+                            animate
+                        );
+
+                        observer.unobserve(counter);
+                    });
+
+                },
+                {
+                    threshold: 0.5
+                }
+            );
+
+        counters.forEach(counter => {
+            observer.observe(counter);
+        });
+    }
+
+
+    /* ==========================================
+       TOAST
+    ========================================== */
+
+    let toastTimer = null;
+
+    function showToast(message) {
+
+        let toast = $(".toast");
+
+        if (!toast) {
+
+            toast =
+                document.createElement("div");
+
+            toast.className = "toast";
+
+            document.body.appendChild(toast);
+        }
+
+        toast.textContent = message;
+
+        toast.classList.add("show");
+
+        clearTimeout(toastTimer);
+
+        toastTimer =
+            setTimeout(() => {
+
+                toast.classList.remove(
+                    "show"
                 );
 
-            }
-
-        });
-
-}
-
-
-/* ======================================
-   FINAL SITE INITIALIZATION
-====================================== */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-
-        initExternalLinks();
-
+            }, 2500);
     }
-);
+
+    window.showToast = showToast;
+
+
+    /* ==========================================
+       HTML ESCAPE
+    ========================================== */
+
+    function escapeHTML(value) {
+
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+
+    /* ==========================================
+       INITIALIZE
+    ========================================== */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        () => {
+
+            initHeader();
+            initMobileMenu();
+            initBackToTop();
+            initSmoothScroll();
+            initCurrentMenu();
+
+            initProductGallery();
+            initQuantity();
+
+            initWishlist();
+            initCartButton();
+
+            initRevealAnimation();
+            initRippleButtons();
+            initCounters();
+
+            updateCartCounter();
+            renderFeaturedProducts();
+        }
+    );
+
+
+})();
