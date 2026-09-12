@@ -578,15 +578,60 @@ document.addEventListener(
 );
 
 
+/* ================================
+   خالی کردن کامل سبد
+================================ */
 
-function checkoutWhatsApp() {
+function clearCartPage() {
 
     if (!cartPageItems.length) {
+        renderCart();
+        return;
+    }
+
+    const confirmed = window.confirm(
+        "آیا مطمئن هستید که می‌خواهید سبد خرید خالی شود؟"
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+    cartPageItems = [];
+
+    localStorage.removeItem("cart");
+
+    if (
+        typeof updateCartCounter === "function"
+    ) {
+        updateCartCounter();
+    }
+
+    renderCart();
+
+}
+
+
+/* ================================
+   ثبت سفارش در واتساپ
+================================ */
+
+function checkoutCartPage() {
+
+    cartPageItems =
+        getCartPageItems();
+
+    if (!cartPageItems.length) {
+
+        alert(
+            "سبد خرید شما خالی است."
+        );
+
         return;
     }
 
     let message =
-        "سلام، برای ثبت سفارش از سایت رایان تگ پیام می‌دهم.%0A%0A";
+        "سلام، می‌خواهم این محصولات را سفارش بدهم:\n\n";
 
     let total = 0;
 
@@ -596,50 +641,56 @@ function checkoutWhatsApp() {
             const data =
                 getCartItemData(item);
 
-            const itemTotal =
+            const rowTotal =
                 data.price *
                 data.quantity;
 
-            total += itemTotal;
+            total += rowTotal;
 
             message +=
                 (index + 1) +
                 ". " +
                 data.name +
-                "%0A";
+                "\n";
 
             message +=
                 "تعداد: " +
                 data.quantity +
-                "%0A";
+                "\n";
 
             message +=
                 "قیمت واحد: " +
                 formatPrice(data.price) +
-                " تومان%0A";
+                " تومان\n";
 
             message +=
                 "جمع: " +
-                formatPrice(itemTotal) +
-                " تومان%0A%0A";
+                formatPrice(rowTotal) +
+                " تومان\n\n";
 
         }
     );
 
+
     message +=
-        "مبلغ کل: " +
+        "--------------------\n";
+
+    message +=
+        "جمع کل: " +
         formatPrice(total) +
-        " تومان%0A%0A";
+        " تومان\n\n";
 
     message +=
-        "لطفاً برای هماهنگی سفارش با من تماس بگیرید.";
+        "لطفاً سفارش من را ثبت کنید.";
 
-    const whatsappUrl =
+
+    const whatsappURL =
         "https://wa.me/989137380652?text=" +
-        message;
+        encodeURIComponent(message);
+
 
     window.open(
-        whatsappUrl,
+        whatsappURL,
         "_blank"
     );
 
@@ -647,7 +698,30 @@ function checkoutWhatsApp() {
 
 
 /* ================================
-   دکمه ثبت سفارش واتساپ
+   اتصال دکمه خالی کردن سبد
+================================ */
+
+document.addEventListener(
+    "click",
+    function (event) {
+
+        const clearButton =
+            event.target.closest(
+                "#clearCartBtn"
+            );
+
+        if (!clearButton) {
+            return;
+        }
+
+        clearCartPage();
+
+    }
+);
+
+
+/* ================================
+   اتصال دکمه سفارش واتساپ
 ================================ */
 
 document.addEventListener(
@@ -656,53 +730,28 @@ document.addEventListener(
 
         const checkoutButton =
             event.target.closest(
-                "#checkoutWhatsApp, .checkout-whatsapp"
+                "#checkoutBtn"
             );
 
         if (!checkoutButton) {
             return;
         }
 
-        checkoutWhatsApp();
+        checkoutCartPage();
 
     }
 );
 
 
 /* ================================
-   اجرای اولیه
+   اجرای اولیه سبد
 ================================ */
 
 document.addEventListener(
     "DOMContentLoaded",
     function () {
 
-        cartPageItems =
-            getCartPageItems();
-
         renderCart();
-
-        updateCartTotal();
 
     }
 );
-
-
-/* ================================
-   هماهنگ کردن سبد بعد از تغییر
-================================ */
-
-window.renderCart =
-    renderCart;
-
-window.clearCartPage =
-    clearCartPage;
-
-window.checkoutWhatsApp =
-    checkoutWhatsApp;
-
-window.changeCartQuantity =
-    changeCartQuantity;
-
-window.removeCartItem =
-    removeCartItem;
