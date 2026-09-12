@@ -425,7 +425,7 @@ function checkoutCartPage() {
 
 
     const whatsapp =
-        "https://wa.me/989032487485?text=" +
+        "https://wa.me/989137380652?text=" +
         encodeURIComponent(
             message
         );
