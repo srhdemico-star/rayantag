@@ -94,15 +94,36 @@ function renderCartPage() {
         function (item, index) {
 
 
-            const price =
-                Number(
-                    String(
-                        item.price || ""
-                    ).replace(
-                        /[^\d]/g,
-                        ""
-                    )
-                ) || 0;
+            const products =
+    typeof PRODUCTS !== "undefined" &&
+    Array.isArray(PRODUCTS)
+        ? PRODUCTS
+        : [];
+
+const product =
+    products.find(
+        p => Number(p.id) === Number(item.id)
+    );
+
+const price =
+    Number(
+        String(
+            product?.price  item.price  ""
+        ).replace(
+            /[^\d]/g,
+            ""
+        )
+    ) || 0;
+
+const productName =
+    product?.name ||
+    item.name ||
+    "محصول";
+
+const productImage =
+    product?.image ||
+    item.image ||
+    "";
 
 
             const quantity =
@@ -124,15 +145,15 @@ function renderCartPage() {
 
 
                     <img
-                        src="${item.image || ""}"
-                        alt="${item.name || "محصول"}"
+                        src="${productImage}"
+                        alt="${productName}"
                     >
 
 
                     <div class="cart-info">
 
                         <h3>
-                            ${item.name || "محصول"}
+                            ${productName}
                         </h3>
 
 
@@ -377,15 +398,26 @@ function checkoutCartPage() {
     cartPageItems.forEach(
         function (item) {
 
-            const price =
-                Number(
-                    String(
-                        item.price || ""
-                    ).replace(
-                        /[^\d]/g,
-                        ""
-                    )
-                ) || 0;
+            const products =
+    typeof PRODUCTS !== "undefined" &&
+    Array.isArray(PRODUCTS)
+        ? PRODUCTS
+        : [];
+
+const product =
+    products.find(
+        p => Number(p.id) === Number(item.id)
+    );
+
+const price =
+    Number(
+        String(
+            product?.price  item.price  ""
+        ).replace(
+            /[^\d]/g,
+            ""
+        )
+    ) || 0;
 
 
             const quantity =
