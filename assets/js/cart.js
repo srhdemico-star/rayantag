@@ -1,45 +1,62 @@
 "use strict";
 
+
+/* =========================================
+   سبد خرید
+========================================= */
+
 let cartPageItems =
-    JSON.parse(localStorage.getItem("cart")) || [];
+    JSON.parse(
+        localStorage.getItem("cart")
+    ) || [];
 
 
-/* ================================
-   دریافت محصولات اصلی
-================================ */
+/* =========================================
+   دریافت لیست محصولات
+========================================= */
 
 function getProductsList() {
 
-    return (
+    if (
         typeof PRODUCTS !== "undefined" &&
         Array.isArray(PRODUCTS)
-    )
-        ? PRODUCTS
-        : [];
+    ) {
+        return PRODUCTS;
+    }
+
+    return [];
 
 }
 
 
-/* ================================
-   پیدا کردن محصول بر اساس ID
-================================ */
+/* =========================================
+   پیدا کردن محصول
+========================================= */
 
 function getProductById(id) {
 
-    const products = getProductsList();
+    const products =
+        getProductsList();
 
-    return products.find(
-        function (product) {
-            return Number(product.id) === Number(id);
-        }
-    ) || null;
+    return (
+        products.find(
+            function (product) {
+
+                return (
+                    Number(product.id) ===
+                    Number(id)
+                );
+
+            }
+        ) || null
+    );
 
 }
 
 
-/* ================================
+/* =========================================
    تبدیل قیمت به عدد
-================================ */
+========================================= */
 
 function getProductPrice(product) {
 
@@ -61,9 +78,9 @@ function getProductPrice(product) {
 }
 
 
-/* ================================
-   اطلاعات کامل آیتم سبد
-================================ */
+/* =========================================
+   اطلاعات کامل محصول سبد
+========================================= */
 
 function getCartItemData(item) {
 
@@ -109,9 +126,9 @@ function getCartItemData(item) {
 }
 
 
-/* ================================
-   دریافت سبد خرید
-================================ */
+/* =========================================
+   دریافت سبد
+========================================= */
 
 function getCartPageItems() {
 
@@ -124,9 +141,9 @@ function getCartPageItems() {
 }
 
 
-/* ================================
-   ذخیره سبد خرید
-================================ */
+/* =========================================
+   ذخیره سبد
+========================================= */
 
 function saveCartPage() {
 
@@ -149,17 +166,23 @@ function saveCartPage() {
 }
 
 
-/* ================================
+/* =========================================
    فرمت قیمت
-================================ */
+========================================= */
 
 function formatPrice(price) {
 
-    return Number(price || 0)
-        .toLocaleString("fa-IR");
+    return Number(
+        price || 0
+    ).toLocaleString(
+        "fa-IR"
+    );
 
 }
 
+/* =========================================
+   نمایش سبد خرید
+========================================= */
 
 function renderCart() {
 
@@ -187,8 +210,11 @@ function renderCart() {
 
     container.innerHTML = "";
 
+
+    /* سبد خالی */
+
     if (
-        !cartPageItems.length
+        cartPageItems.length === 0
     ) {
 
         if (emptyCart) {
@@ -206,6 +232,9 @@ function renderCart() {
         return;
     }
 
+
+    /* سبد دارای محصول */
+
     if (emptyCart) {
         emptyCart.style.display =
             "none";
@@ -216,15 +245,17 @@ function renderCart() {
             "block";
     }
 
+
     cartPageItems.forEach(
         function (item, index) {
 
             const data =
                 getCartItemData(item);
 
-            const itemTotal =
+            const rowTotal =
                 data.price *
                 data.quantity;
+
 
             const cartItem =
                 document.createElement(
@@ -234,8 +265,6 @@ function renderCart() {
             cartItem.className =
                 "cart-item";
 
-            cartItem.dataset.index =
-                index;
 
             cartItem.innerHTML = `
 
@@ -258,9 +287,11 @@ function renderCart() {
                     <div class="cart-item-price">
 
                         قیمت واحد:
+
                         <strong>
                             ${formatPrice(data.price)}
                         </strong>
+
                         تومان
 
                     </div>
@@ -275,21 +306,21 @@ function renderCart() {
                         class="qty-btn"
                         data-action="decrease"
                         data-index="${index}"
-                        aria-label="کاهش تعداد"
                     >
                         −
                     </button>
 
+
                     <span class="quantity-value">
                         ${data.quantity}
                     </span>
+
 
                     <button
                         type="button"
                         class="qty-btn"
                         data-action="increase"
                         data-index="${index}"
-                        aria-label="افزایش تعداد"
                     >
                         +
                     </button>
@@ -304,12 +335,10 @@ function renderCart() {
                     </span>
 
                     <strong>
-                        ${formatPrice(itemTotal)}
+                        ${formatPrice(rowTotal)}
                     </strong>
 
-                    <span>
-                        تومان
-                    </span>
+                    تومان
 
                 </div>
 
@@ -325,6 +354,7 @@ function renderCart() {
 
             `;
 
+
             container.appendChild(
                 cartItem
             );
@@ -332,14 +362,15 @@ function renderCart() {
         }
     );
 
+
     updateCartTotal();
 
 }
 
 
-/* ================================
-   تغییر تعداد محصول
-================================ */
+/* =========================================
+   تغییر تعداد
+========================================= */
 
 function changeCartQuantity(
     index,
@@ -352,15 +383,18 @@ function changeCartQuantity(
         return;
     }
 
+
     const currentQuantity =
         Number(
             cartPageItems[index]
                 .quantity
         ) || 1;
 
+
     const newQuantity =
         currentQuantity +
         change;
+
 
     if (
         newQuantity <= 0
@@ -379,6 +413,7 @@ function changeCartQuantity(
 
     }
 
+
     saveCartPage();
 
     renderCart();
@@ -386,9 +421,9 @@ function changeCartQuantity(
 }
 
 
-/* ================================
+/* =========================================
    حذف محصول
-================================ */
+========================================= */
 
 function removeCartItem(index) {
 
@@ -398,10 +433,12 @@ function removeCartItem(index) {
         return;
     }
 
+
     cartPageItems.splice(
         index,
         1
     );
+
 
     saveCartPage();
 
@@ -410,19 +447,21 @@ function removeCartItem(index) {
 }
 
 
-/* ================================
-   جمع کل سبد
-================================ */
+/* =========================================
+   محاسبه جمع کل
+========================================= */
 
 function getCartTotal() {
 
     let total = 0;
+
 
     cartPageItems.forEach(
         function (item) {
 
             const data =
                 getCartItemData(item);
+
 
             total +=
                 data.price *
@@ -431,24 +470,27 @@ function getCartTotal() {
         }
     );
 
+
     return total;
 
 }
 
 
-/* ================================
+/* =========================================
    نمایش جمع کل
-================================ */
+========================================= */
 
 function updateCartTotal() {
 
     const total =
         getCartTotal();
 
+
     const totalElements =
         document.querySelectorAll(
             "#cartTotal, .cart-total-price, #totalPrice"
         );
+
 
     totalElements.forEach(
         function (element) {
@@ -463,9 +505,163 @@ function updateCartTotal() {
 }
 
 
-/* ================================
-   کلیک روی دکمه‌های سبد
-================================ */
+/* =========================================
+   خالی کردن کامل سبد
+========================================= */
+
+function clearCartPage() {
+
+    if (
+        cartPageItems.length === 0
+    ) {
+        renderCart();
+        return;
+    }
+
+
+    const confirmed =
+        window.confirm(
+            "آیا مطمئن هستید که می‌خواهید سبد خرید خالی شود؟"
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    cartPageItems = [];
+
+
+    localStorage.removeItem(
+        "cart"
+    );
+
+
+    if (
+        typeof updateCartCounter ===
+        "function"
+    ) {
+
+        updateCartCounter();
+
+    }
+
+
+    renderCart();
+
+}
+
+
+/* =========================================
+   سفارش در واتساپ
+========================================= */
+
+function checkoutCartPage() {
+
+    cartPageItems =
+        getCartPageItems();
+
+
+    if (
+        cartPageItems.length === 0
+    ) {
+
+        alert(
+            "سبد خرید شما خالی است."
+        );
+
+        return;
+
+    }
+
+
+    let message =
+        "سلام، می‌خواهم این محصولات را سفارش بدهم:\n\n";
+
+
+    let total = 0;
+
+
+    cartPageItems.forEach(
+        function (item, index) {
+
+            const data =
+                getCartItemData(item);
+
+
+            const rowTotal =
+                data.price *
+                data.quantity;
+
+
+            total += rowTotal;
+
+
+            message +=
+                (index + 1) +
+                ". " +
+                data.name +
+                "\n";
+
+
+            message +=
+                "تعداد: " +
+                data.quantity +
+                "\n";
+
+
+            message +=
+                "قیمت واحد: " +
+                formatPrice(
+                    data.price
+                ) +
+                " تومان\n";
+
+
+            message +=
+                "جمع: " +
+                formatPrice(
+                    rowTotal
+                ) +
+                " تومان\n\n";
+
+        }
+    );
+
+
+    message +=
+        "--------------------\n";
+
+
+    message +=
+        "جمع کل: " +
+        formatPrice(total) +
+        " تومان\n\n";
+
+
+    message +=
+        "لطفاً سفارش من را ثبت کنید.";
+
+
+    const whatsappURL =
+        "https://wa.me/989137380652?text=" +
+        encodeURIComponent(
+            message
+        );
+
+
+    window.open(
+        whatsappURL,
+        "_blank"
+    );
+
+}
+
+
+/* =========================================
+   دکمه‌های + و -
+========================================= */
 
 document.addEventListener(
     "click",
@@ -476,17 +672,24 @@ document.addEventListener(
                 ".qty-btn"
             );
 
-        if (quantityButton) {
+
+        if (
+            quantityButton
+        ) {
 
             const index =
                 Number(
-                    quantityButton.dataset
+                    quantityButton
+                        .dataset
                         .index
                 );
 
+
             const action =
-                quantityButton.dataset
+                quantityButton
+                    .dataset
                     .action;
+
 
             if (
                 action ===
@@ -500,6 +703,7 @@ document.addEventListener(
 
             }
 
+
             if (
                 action ===
                 "decrease"
@@ -512,23 +716,31 @@ document.addEventListener(
 
             }
 
+
             return;
 
         }
 
+
+        /* حذف محصول */
 
         const removeButton =
             event.target.closest(
                 ".remove-cart-item"
             );
 
-        if (removeButton) {
+
+        if (
+            removeButton
+        ) {
 
             const index =
                 Number(
-                    removeButton.dataset
+                    removeButton
+                        .dataset
                         .index
                 );
+
 
             removeCartItem(
                 index
@@ -540,166 +752,9 @@ document.addEventListener(
 );
 
 
-/* ================================
-   پاک کردن کل سبد
-================================ */
-
-function clearCartPage() {
-
-    cartPageItems = [];
-
-    saveCartPage();
-
-    renderCart();
-
-}
-
-
-/* ================================
-   دکمه پاک کردن سبد
-================================ */
-
-document.addEventListener(
-    "click",
-    function (event) {
-
-        const clearButton =
-            event.target.closest(
-                "#clearCart, .clear-cart"
-            );
-
-        if (!clearButton) {
-            return;
-        }
-
-        clearCartPage();
-
-    }
-);
-
-
-/* ================================
-   خالی کردن کامل سبد
-================================ */
-
-function clearCartPage() {
-
-    if (!cartPageItems.length) {
-        renderCart();
-        return;
-    }
-
-    const confirmed = window.confirm(
-        "آیا مطمئن هستید که می‌خواهید سبد خرید خالی شود؟"
-    );
-
-    if (!confirmed) {
-        return;
-    }
-
-    cartPageItems = [];
-
-    localStorage.removeItem("cart");
-
-    if (
-        typeof updateCartCounter === "function"
-    ) {
-        updateCartCounter();
-    }
-
-    renderCart();
-
-}
-
-
-/* ================================
-   ثبت سفارش در واتساپ
-================================ */
-
-function checkoutCartPage() {
-
-    cartPageItems =
-        getCartPageItems();
-
-    if (!cartPageItems.length) {
-
-        alert(
-            "سبد خرید شما خالی است."
-        );
-
-        return;
-    }
-
-    let message =
-        "سلام، می‌خواهم این محصولات را سفارش بدهم:\n\n";
-
-    let total = 0;
-
-    cartPageItems.forEach(
-        function (item, index) {
-
-            const data =
-                getCartItemData(item);
-
-            const rowTotal =
-                data.price *
-                data.quantity;
-
-            total += rowTotal;
-
-            message +=
-                (index + 1) +
-                ". " +
-                data.name +
-                "\n";
-
-            message +=
-                "تعداد: " +
-                data.quantity +
-                "\n";
-
-            message +=
-                "قیمت واحد: " +
-                formatPrice(data.price) +
-                " تومان\n";
-
-            message +=
-                "جمع: " +
-                formatPrice(rowTotal) +
-                " تومان\n\n";
-
-        }
-    );
-
-
-    message +=
-        "--------------------\n";
-
-    message +=
-        "جمع کل: " +
-        formatPrice(total) +
-        " تومان\n\n";
-
-    message +=
-        "لطفاً سفارش من را ثبت کنید.";
-
-
-    const whatsappURL =
-        "https://wa.me/989137380652?text=" +
-        encodeURIComponent(message);
-
-
-    window.open(
-        whatsappURL,
-        "_blank"
-    );
-
-}
-
-
-/* ================================
-   اتصال دکمه خالی کردن سبد
-================================ */
+/* =========================================
+   دکمه خالی کردن سبد
+========================================= */
 
 document.addEventListener(
     "click",
@@ -710,9 +765,13 @@ document.addEventListener(
                 "#clearCartBtn"
             );
 
-        if (!clearButton) {
+
+        if (
+            !clearButton
+        ) {
             return;
         }
+
 
         clearCartPage();
 
@@ -720,9 +779,9 @@ document.addEventListener(
 );
 
 
-/* ================================
-   اتصال دکمه سفارش واتساپ
-================================ */
+/* =========================================
+   دکمه سفارش واتساپ
+========================================= */
 
 document.addEventListener(
     "click",
@@ -733,9 +792,13 @@ document.addEventListener(
                 "#checkoutBtn"
             );
 
-        if (!checkoutButton) {
+
+        if (
+            !checkoutButton
+        ) {
             return;
         }
+
 
         checkoutCartPage();
 
@@ -743,9 +806,9 @@ document.addEventListener(
 );
 
 
-/* ================================
-   اجرای اولیه سبد
-================================ */
+/* =========================================
+   اجرای اولیه
+========================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
@@ -755,3 +818,5 @@ document.addEventListener(
 
     }
 );
+
+
