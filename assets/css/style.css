@@ -1033,13 +1033,19 @@ nav a.active::after {
 }
 
 .cta .btn-outline {
-    border-color: rgba(255, 255, 255, .7);
-    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(255, 255, 255, .9);
+    color: #fff !important;
+    background: transparent;
+    opacity: 1;
+    visibility: visible;
 }
 
 .cta .btn-outline:hover {
     background: #fff;
-    color: var(--primary-dark);
+    color: var(--primary-dark) !important;
 }
 
 
