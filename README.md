@@ -1,4 +1,4 @@
-# SabzAbi Store
+# Rayantag
 
 فروشگاه اینترنتی موبایل و لوازم جانبی دیجیتال
 
@@ -33,13 +33,10 @@
 
 ## اطلاعات فروشگاه
 
-SabzAbi Store
+Rayantag
 
-📞 09032487485
+📞 09137380652
 
-📷 Instagram:
-
-@sababistore
 
 📍 Isfahan
 
@@ -69,4 +66,4 @@ Version
 
 V1.0
 
-Developed for SabzAbi Store
+Developed for Rayantag
