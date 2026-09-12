@@ -1310,21 +1310,3 @@ nav a.active::after {
     transform: translate(-50%, 0);
 }
 
-
-/* دکمه‌های افزایش و کاهش تعداد در سبد خرید */
-.cart-quantity button,
-.quantity-control button,
-.cart-item-quantity button {
-    color: #111 !important;
-    background: #fff !important;
-    border: 1px solid #ddd !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-}
-
-.cart-quantity button:hover,
-.quantity-control button:hover,
-.cart-item-quantity button:hover {
-    color: #fff !important;
-    background: #1f8f5f !important;
-}
